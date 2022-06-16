@@ -1,0 +1,12 @@
+<seelog>
+    <outputs formatid="watch">
+        <filter levels="info">
+            <buffered formatid="watch" size="10000" flushperiod="1000">
+                <rollingfile type="date" filename="./runtime.log" datepattern="2006-01-02-15" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="watch" format="%Date %Time%Msg%n"/>
+    </formats>
+</seelog>

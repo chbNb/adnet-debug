@@ -1,0 +1,12 @@
+<seelog>
+    <outputs formatid="runtime">
+        <filter levels="info,warn,error,critical">
+            <buffered formatid="runtime" size="10000" flushperiod="100">
+                <rollingfile type="date" filename="/data/adn_logs/adnet/runtime/runtime.log" datepattern="2006-01-02-15" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="runtime" format="%Date %Time [%LEVEL] [%Func] [%RelFile:%Line] %Msg%n"/>
+    </formats>
+</seelog>

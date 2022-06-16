@@ -1,0 +1,204 @@
+Register:
+  IsSupportConsul: false
+
+AppConsul:
+  ServiceIP: "127.0.0.1"
+  Port: 9091
+  ServiceName: "adnet_server"
+  Tags:
+    - "adnet_server"
+  ConsulSchema: "http"
+  ConsulAgent: "127.0.0.1:8500"
+  CheckInterval: "5s"
+
+# type:1,2,3,4; 分别对应prometheus统计类型:counter,gauge,histogram,summary
+Metrics:
+  Namespace: "mtg_app"
+  Subsystem: "adnet_server"
+  IsOpenWatcherMetrics: false
+  Datas:
+    - Index: 0
+      Type: 1
+      Name: "api_request_total"
+      Help: "api请求统计"
+      Labels: "method-api"
+    - Index: 1
+      Type: 2
+      Name: "api_response_time"
+      Help: "api响应时间"
+      Labels: "method-api"
+    - Index: 2
+      Type: 4
+      Name: "api_duration_summary"
+      Help: "api响应时间分位"
+      Labels: "method-api"
+    - Index: 3
+      Type: 4
+      Name: "backend_duration_summary"
+      Help: "后台响应时间分位"
+      Labels: "backid"
+    - Index: 4
+      Type: 1
+      Name: "backend_code_total"
+      Help: "后台返回code统计"
+      Labels: "backid-code-adtype"
+    - Index: 5
+      Type: 2
+      Name: "pipeline_time"
+      Help: "后台返回code统计"
+      Labels: "pipeline"
+    - Index: 6
+      Type: 1
+      Name: "set_bidcache_error"
+      Help: "写bidcache失败"
+      Labels: ""
+    - Index: 7
+      Type: 1
+      Name: "get_bidcache_error"
+      Help: "读bidcache失败"
+      Labels: "event"
+    - Index: 8
+      Type: 1
+      Name: "token_expired"
+      Help: "token过期"
+      Labels: "event"
+    - Index: 9
+      Type: 2
+      Name: "mapping_server_response_time"
+      Help: "mapping server响应时间"
+      Labels: ""
+    - Index: 10
+      Type: 1
+      Name: "mapping_server_resp_code"
+      Help: "mapping server响应code"
+      Labels: "code"
+    - Index: 11
+      Type: 1
+      Name: "mapping_server_ruid_empty"
+      Help: "mapping serverruid为空值"
+      Labels: ""
+    - Index: 12
+      Type: 4
+      Name: "mapping_server_response_time_summary"
+      Help: "mapping server响应时间分位"
+      Labels: ""
+    - Index: 13
+      Type: 1
+      Name: "mapping_server_error_httpcode"
+      Help: "mapping server响应error httpcode"
+      Labels: "code"
+    - Index: 14
+      Type: 1
+      Name: "mapping_server_request_error"
+      Help: "mapping server请求错误情况"
+      Labels: "error"
+    - Index: 15
+      Type: 1
+      Name: "get_mapping_idfa_times"
+      Help: "满足切量条件，请求aerospike次数"
+      Labels: ""
+    - Index: 16
+      Type: 1
+      Name: "has_mapping_idfa_times"
+      Help: "请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 17
+      Type: 1
+      Name: "get_mapping_idfa_by_sysid_times"
+      Help: "根据sysid，请求aerospike次数"
+      Labels: ""
+    - Index: 18
+      Type: 1
+      Name: "has_mapping_idfa_by_sysid_times"
+      Help: "根据sysid，请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 19
+      Type: 1
+      Name: "get_mapping_idfa_by_idfv_times"
+      Help: "根据idfv，请求aerospike次数"
+      Labels: ""
+    - Index: 20
+      Type: 1
+      Name: "has_mapping_idfa_by_idfv_times"
+      Help: "根据idfv，请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 21
+      Type: 4
+      Name: "geo_client_response_time_summary"
+      Help: "geo client响应时间分位"
+      Labels: ""
+    - Index: 22
+      Type: 1
+      Name: "zone_node_select"
+      Help: "根据zone挑选对应的节点"
+      Labels: "mod-local-remote"
+    - Index: 23
+      Type: 1
+      Name: "more_offer_backend_err_total"
+      Help: "more_offer/appwall请求错误次数"
+      Labels: "backid-adtype"
+    - Index: 24
+      Type: 1
+      Name: "backend_code_total_by_adtype"
+      Help: "后台返回code分adtype统计"
+      Labels: "backid-code-adtype"
+    - Index: 25
+      Type: 1
+      Name: "panic_total"
+      Help: "recover panic数"
+      Labels: ""
+    - Index: 26
+      Type: 1
+      Name: "filter_request_total"
+      Help: "过滤请求原因数量"
+      Labels: "reason"
+    - Index: 27
+      Type: 1
+      Name: "aerospike_gzip_times"
+      Help: "aerospike序列化使用了gzip/unGzip压缩的次数"
+      Labels: "event"
+    - Index: 28
+      Type: 2
+      Name: "aerospike_gzip_time_cost"
+      Help: "aerospike使用了gzip/unGzip反序列化的耗时"
+      Labels: "event"
+    - Index: 29
+      Type: 1
+      Name: "aerospike_reload_info_not_found"
+      Help: "load请求从tb重新加载AppInfo, UnitInfo, PublisherInfo未找到"
+      Labels: "event"
+    - Index: 30
+      Type: 1
+      Name: "service_degrade_drop_request_times"
+      Help: "服务降级, 丢弃请求数量"
+      Labels: "event"
+    - Index: 31
+      Type: 1
+      Name: "algo_abtest_warn_times"
+      Help: "algo_abtest warn times"
+      Labels: "event"
+    - Index: 32
+      Type: 1
+      Name: "bid_server_error"
+      Help: "bid_server有关的错误"
+      Labels: "event"
+    - Index: 33
+      Type: 1
+      Name: "bid_server_trigger_times"
+      Help: "二阶段bid事件触发次数"
+      Labels: "event"
+    - Index: 34
+      Type: 1
+      Name: "bid_server_load_http_code"
+      Help: "二阶段Load的状态码"
+      Labels: "event"
+    - Index: 35
+      Type: 2
+      Name: "bid_server_time_cost"
+      Help: "二阶段请求耗时"
+      Labels: "event"
+    - Index: 36
+      Type: 1
+      Name: "template_url_err_total"
+      Help: "模版url异常次数"
+      Labels: "urltype-dspid"

@@ -1,0 +1,5 @@
+Host gitlab.mobvista.com
+    Hostname %h
+    User git
+    IdentityFile /root/.ssh/id_rsa
+    StrictHostKeyChecking no

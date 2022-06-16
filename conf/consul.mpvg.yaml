@@ -1,0 +1,35 @@
+address: "127.0.0.1:8500"
+key_path: "clb"
+cpu_threshold: "cpu_threshold.json"
+instance_factor: "instance_factor.json"
+onlinelab_factor: "onlinelab_factor.json"
+zone_cpu: "zone_cpu.json"
+aerospike:
+  enable: false
+  service_name: "hb-aerospike"
+  interval: "1m"
+  namespace: "adnet"
+  setname: "aladdin"
+  timeout: "200ms"
+  expiration: "1h"
+  retries: 0
+adx:
+  enable: false
+  service_name: "adx"
+  interval: "1m"
+  timeout: "200ms"
+adnet_aerospike:
+  enable: false
+  service_name: "adnet-aerospike"
+  interval: "1m"
+  namespace: "adnet"
+  setname: "fallback"
+  timeout: "20ms"
+  expiration: "360h"
+  retries: 0
+mapping_server:
+  enable: false
+  service_name: "http_mapping.service"
+  interval: "1m"
+  timeout: "20ms"
+  httpUrl: ""

@@ -1,0 +1,2 @@
+end_point: "http://online-adx-server.adx.svc.cluster.local:8102/hbrtb"
+time_max: 600

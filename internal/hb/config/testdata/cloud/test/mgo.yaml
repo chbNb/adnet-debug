@@ -1,0 +1,24 @@
+extractor:
+  interval: 60
+  mongo: "mongodb://adn-cpmongo-slave-internal-fk.rayjump.com:27017/"
+  db: "new_adn"
+  conn_timeout: 600
+  read_timeout: 180
+  max_pool_size: 10
+  offset: 7
+  collections:
+    - "app"
+    - "unit"
+    - "publisher"
+    - "campaign"
+    - "config"
+    - "adx_media_config"
+    - "configcenter"
+    - "ad_backend_config"
+    - "advertiser"
+    - "traffic_distribution"
+    - "adxFakeDspPriceFactor"
+    - "app_package_mtg_id"
+    - "adx_dsp_config"
+    - "config_algorithm_fillrate"
+    - "freq_control_factor"

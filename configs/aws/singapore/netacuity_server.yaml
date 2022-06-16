@@ -1,0 +1,5 @@
+feature_code: 4
+api_id: 12
+net_server_ip: "adn-iplib-internal-sg-aws.rayjump.com"
+timeout_delay: 20
+expire: 3600 #有依赖 别改！！！

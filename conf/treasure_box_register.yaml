@@ -1,0 +1,310 @@
+tables:
+  - name: "new_adn:campaign"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "CityCodeV2": 1
+      "SendDeviceidRate": 1
+      "WxPath": 1
+      "ApkMd5": 1
+      "Mof": 1
+      "TrackingUrl": 1
+      "CountryCode": 1
+      "CampaignType": 1
+      "BlackSubidListV2": 1
+      "ApkUrl": 1
+      "Network": 1
+      "Source": 1
+      "ChnID": 1
+      "ApkVersion": 1
+      "DirectPackageName": 1
+      "BtV4": 1
+      "CostType": 1
+      "ThirdParty": 1
+      "CampaignId": 1
+      "PreviewUrl": 1
+      "JumpTypeConfig2": 1
+      "AlecfcRate": 1
+      "AlacRate": 1
+      "UserActivation": 1
+      "AppPostList": 1
+      "OpenType": 1
+      "IsCampaignCreative": 1
+      "DeepLink": 1
+      "MChanlPrice": 1
+      "ReadCreative": 1
+      "MCountryChanlOriPrice": 1
+      "AdvertiserId": 1
+      "AdSourceId": 1
+      "AdUrlList": 1
+      "ConfigVBA": 1
+      "PublisherId": 1
+      "WxAppId": 1
+      "VbaTrackingLink": 1
+      "BelongType": 1
+      "SubCategoryName": 1
+      "Updated": 1
+      "FrequencyCap": 1
+      "AdvImp": 1
+      "JumpType": 1
+      "VbaConnecting": 1
+      "MCountryChanlPrice": 1
+      "SkadnCampaignId": 1
+      "Platform": 1
+      "OriPrice": 1
+      "PackageName": 1
+      "LocalPrice": 1
+      "DirectUrl": 1
+      "Price": 1
+      "BindId": 1
+      "NeedToNotice3s": 1
+      "Ctype": 1
+      "AdvUserId": 1
+      "CountryChanlOriPrice": 1
+      "CreateSrc": 1
+      "JumpTypeConfig": 1
+      "BasicCrList": 1
+      "RetargetOffer": 1
+      "SkadnSupport": 1
+      "Id": 1
+      "Status": 1
+      "SdkPackageName": 1
+      "RetargetingDevice": 1
+      "AppSize": 1
+      "SkadnNeed": 1
+      "Category": 1
+      "TrackingUrlHttps": 1
+      "Tag": 1
+      "Endcard": 1
+      "Loopback": 1
+      "SkadnTarget": 1
+      "SkadnSettle": 1
+      "SendSKAN": 1
+      "NetworkCid": 1
+      "NormalLandingPageUrl": 1
+  - name: "new_adn:publisher"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "PublisherId": 1
+      "Publisher": 1
+      "Updated": 1
+      "JumptypeConfig": 1
+      "OffsetList": 1
+      "JumptypeConfigV2": 1
+  - name: "new_adn:app"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "DirectOfferConfig": 1
+      "App": 1
+      "Publisher": 1
+      "JumptypeConfig": 1
+      "Rewards": 1
+      "BlackCategoryList": 1
+      "BlackPackageList": 1
+      "AppId": 1
+      "Updated": 1
+      "LandingPageVersion": 1
+      "RealPackageName": 1
+      "JumptypeConfigV2": 1
+      "AppSkIds": 1
+      "DefaultSkIds": 1
+  - name: "new_adn:unit"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "AppId": 1
+      "JumptypeConfigV2": 1
+      "Setting": 1
+      "AdSourceLen": 1
+      "VirtualReward": 1
+      "MVToMP": 1
+      "AdSourceTime": 1
+      "EcpmFloors": 1
+      "BlackPackageList": 1
+      "AdSourceCountry": 1
+      "Endcard": 1
+      "CdnSetting": 1
+      "UnitId": 1
+      "Unit": 1
+      "AdSourceData": 1
+      "Updated": 1
+      "JumptypeConfig": 1
+      "MPToMV": 1
+      "BlackCategoryList": 1
+      "DirectOfferConfig": 1
+      "FakeRuleV2": 1
+      "TemplateConf": 1
+  - name: "new_adn:advertiser"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "AdvertiserId": 1
+      "Advertiser": 1
+      "Updated": 1
+  - name: "new_adn:adx_traffic_media_config"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "TrafficType": 1
+      "DeviceId": 1
+      "DspWhiteList": 1
+      "Area": 1
+      "Status": 1
+      "Updated": 1
+      "UnitId": 1
+      "AdType": 1
+      "Mode": 1
+  - name: "new_adn:adx_dsp_config"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "Updated": 1
+      "Target": 1
+      "DspID": 1
+      "Status": 1
+  - name: "new_adn:app_package_mtg_id"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "MtgID": 1
+      "AppPackage": 1
+      "Updated": 1
+  - name: "new_adn:config_algorithm_fillrate"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "Rate": 1
+      "Updated": 1
+      "Status": 1
+      "EcpmFloor": 1
+      "ControlMode": 1
+      "UniqueKey": 1
+  - name: "new_adn:freq_control_factor"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "FactorKey": 1
+      "FactorRate": 1
+      "Status": 1
+      "Updated": 1
+  - name: "new_adn:placement"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "PlacementId": 1
+      "ImpressionCap": 1
+      "ImpressionCapPeriod": 1
+      "Status": 1
+      "Updated": 1
+  - name: "new_adn:ssp_profit_distribution_rule"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "PlusMax": 1
+      "Area": 1
+      "DailyDeficitCap": 1
+      "Updated": 1
+      "Type": 1
+      "FixedEcpm": 1
+      "UnitId": 1
+      "UpdatedDate": 1
+      "Status": 1
+  - name: "new_adn:config"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: "ConfigPreProc"
+    projection_map:
+      "Value": 1
+      "Updated": 1
+      "Key": 1
+  - name: "new_adn:configcenter"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: "ConfigCenterPreProc"
+    projection_map:
+      "Key": 1
+      "Area": 1
+      "Value": 1
+      "Updated": 1
+  - name: "new_adn:advOffer"
+    cache_type: "CACHE_LRU"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "Status": 1
+      "Updated": 1
+      "AdvOfferId": 1
+      "AppName": 1
+      "SensitivePermission": 1
+      "OriginSensitivePermission": 1
+      "PrivacyUrl": 1
+      "AppVersionUpdateTime": 1
+      "AppVersion": 1
+      "DeveloperName": 1
+  - name: "new_adn:creative_package"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "CpId": 1
+      "CsetName": 1
+      "Status": 1
+      "Updated": 1
+  - name: "new_adn:adx_header_bidding_price_factor"
+    cache_type: "CACHE_SIMPLE"
+    expired_default_time: 0
+    automatically_reset_rate: 0.0
+    hot_data_init_max_number: 0
+    preprocess_func_name: ""
+    projection_map:
+      "UnitId": 1
+      "Area": 1
+      "SubsidyType": 1
+      "Status": 1
+      "Updated": 1

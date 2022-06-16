@@ -1,0 +1,105 @@
+UseTreasureBoxSDK = true
+UseRedisConsul = true
+TreasureBoxABtest = 100
+LoggerPath = "./conf/treasure_box_log.xml"
+
+[BaseConfig]
+# 间隔多长时间执行增量更新（增量更新间隔时间），单位（秒）,  必须>0
+TimeAfterSecond = 60
+# 更新时，往前推移多少秒，单位（秒）,  必须>0
+Offset = 6
+# 设置分区数, 必须>0
+NumOfPartitions = 100
+# 批量删除过期Key的间间隔，单位（秒）， 必须>0，例如设置3s，会没3s触发一次过期key的删除
+BatchDeleteTime = 60
+# 启动时每批最大获取数量数
+QueryBmBatchNumber = 100
+# 增量更新时每批最大获取数量数
+QueryIncBatchNumber = 100
+
+[LRUConfig]
+# 在初始化时，会从hotData获取Id的最大数来启动
+HotDataInitMaxNumber = 20000
+# LRU数据的默认缓存时间，如果注册加载数据时配置为0，会使用这里的配置
+ExpiredDefaultTime = 3600
+# LRU数据在获取时，如果TTL时间 < 缓存最长时间 * rate 时，会自动将TTL设置为最长时间
+AutomaticallyResetRate = 0.5
+    [LRUConfig.HotRedisClusterConfig]
+    # ip:port对, 多个间用分号（;）隔开
+    HostPort = "adn-ip-cache-oh.rayjump.com:6379"
+    # 连接超时 毫秒
+    ConnectTimeout = 3000
+    # 读超时 毫秒
+    ReadTimeout  = 1000
+    # 写超时 毫秒
+    WriteTimeout = 1000
+    # 单个节点最大连接数
+    PoolSize = 20
+
+[RedisConfig]
+# ip:port， 只能有一个
+HostPort = "oh-adnet-treasurebox.rayjump.com:6380"
+# 连接超时 毫秒
+ConnectTimeout = 300
+# 读超时 毫秒
+ReadTimeout = 300
+# 写超时 毫秒
+WriteTimeout = 50
+# 单个节点最大连接数
+PoolSize = 200
+# 单独为启动&增量更新设置配置， HostPort是共用的
+# 连接超时 毫秒
+ConnectTimeout4GetBatch = 9000
+# 读超时 毫秒
+ReadTimeout4GetBatch = 10000
+# 写超时 毫秒
+WriteTimeout4GetBatch = 3000
+# 单个节点最大连接数
+PoolSize4GetBatch = 5
+
+[RedisConsulConfig]
+# 连接超时 毫秒
+ConnectTimeout = 300
+# 读超时 毫秒
+ReadTimeout = 300
+# 写超时 毫秒
+WriteTimeout = 50
+# 单个节点最大连接数
+PoolSize = 200
+# 单独为启动&增量更新设置配置， HostPort是共用的
+# 连接超时 毫秒
+ConnectTimeout4GetBatch = 9000
+# 读超时 毫秒
+ReadTimeout4GetBatch = 10000
+# 写超时 毫秒
+WriteTimeout4GetBatch = 3000
+# 单个节点最大连接数
+PoolSize4GetBatch = 5
+    [RedisConsulConfig.ConsulConfig]
+    Address = "127.0.0.1:8500"
+    Service = "treasurebox_redis"
+    MyService = "adnet"
+    Internal = 200
+    ServiceRatio = 6.0
+    CpuThreshold = 0.7
+
+[MongoConsulConfig]
+#链接超时，单位秒
+ConnectTimeout = 60
+#读取超时，单位秒
+ReadTimeout = 10
+#最大连接数量
+MaxPoolSize = 20
+    [MongoConsulConfig.ConsulConfig]
+    Address = "127.0.0.1:8500"
+    Service = "mongoslave"
+    MyService = "adnet"
+    Internal = 200
+    ServiceRatio = 6.0
+    CpuThreshold = 0.7
+
+[MongoConfig]
+HostPort = "mongodb://adn-cpmongo-slave-rs-oh.rayjump.com:27017"
+MaxPoolSize = 20
+ConnectTimeout = 60
+ReadTimeout = 10

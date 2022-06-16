@@ -1,0 +1,192 @@
+[HttpConfig]
+#服务端口
+Port = 9091
+Region = "aws-prerelease"
+ServerIpUrl = "http://169.254.169.254/latest/meta-data/public-ipv4"
+DefaultIconUrls = ["cdn-adn.rayjump.com/cdn-adn/v2/portal/18/10/26/15/53/5bd2c80a6dc68.jpg"]
+SDkVersions = ["MAL_7.6.6","MI_1.5.0"]
+DNSInterval = 30
+AndroidNot302Ver = [8013200, 8013400, 8013500, 8013700, 8013800, 8013900, 8014200, 8014400]
+RateLimit = 1000
+MaxRateLimit = 300
+ConfigCenterKey = "common_sg"
+ToMongo = false
+PprofPath = "/pprof"
+CommonPath = "./conf/adnet_common.conf"
+TreasureBoxConfigPath="./conf/treasure_box.conf.close"
+BackendPath = "./conf/ad_backends.conf"
+#是否走redis 压缩数据 false不走，true走
+RedisDecode = false
+RuntimeLogRate = 5
+IpRedisLimit = 300
+MKVConf = "./conf/mkv_conf.sg.json"
+#MKVConfSE = "./conf/mkv_conf.se.json"
+UseCtRedisConsul = true
+UseMongoConsul = true
+
+[CpMongoConsulConfig]
+Address = "127.0.0.1:8500"
+Service = "mongoslave"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 6.0
+CpuThreshold = 0.7
+
+[IpInfoClusterConfig]
+# ip:port对，多个以;分隔
+HostPort="adn-ip-cache-sg.rayjump.com:6379"
+#连接超时 毫秒
+ConnectTimeout=100
+# 读超时 毫秒
+ReadTimeout=100
+# 写超时 毫秒
+WriteTimeout=100
+# 单个节点最大连接数
+PoolSize=30
+
+[RedisClusterConfig]
+# ip:port对，多个以;分隔
+HostPort="adnet-redis-c-v2.darlp4.clustercfg.apse1.cache.amazonaws.com:6379"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[RedisAlgoConfig]
+# ip:port对，多个以;分隔
+HostPort="127.0.0.1:6382"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[RedisLocalConfig]
+# ip:port对，多个以;分隔
+HostPort="127.0.0.1:6380"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[CtRedisConsulConfig]
+Address = "127.0.0.1:8500"
+Service = "adnet_creative_redis"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 1.0
+CpuThreshold = 0.7
+
+[Service]
+[[Service.ServiceDetail]]
+Name = "Mintegral"
+ID = 1
+Workers = 100
+HttpURL = "172.31.10.126:9099"
+HttpsURL = "172.31.10.126:9099"
+Timeout = 500
+UseConsul = false
+[Service.ServiceDetail.ConsulCfg]
+Address = "127.0.0.1:8500"
+Service = "as"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 1.5
+CpuThreshold = 0.7
+
+[[Service.ServiceDetail]]
+Name = "MAdx"
+ID = 17
+Workers = 100
+HttpURL = "http://127.0.0.1:8102/open_rtb"
+HttpsURL = "http://127.0.0.1:8102/open_rtb"
+Path = "/open_rtb"
+Method = "POST"
+Timeout = 2000
+UseConsul = false
+[Service.ServiceDetail.ConsulCfg]
+Address = "127.0.0.1:8500"
+Service = "adx"
+MyService = "adnet"
+Internal = 1000
+Timeout = 200
+ServiceRatio = 1.5
+CpuThreshold = 0.7
+
+################################################################
+[ExtraConfig]
+# 增量导出间隔(秒)
+ModifyInterval = 60
+IntervalFactor = 10
+#使用的有缓存时间MAP
+UseExpiredMap = true
+EMBatchDeleteTime = 60
+EMExpiredDefaultTime = 3600
+EMRetryAgrainSleepMicrosecond = 10
+ActiveDataCollecter = "campaign,unit,app,publisher"
+
+# 线上mongo
+Mongo = "adn-cpmongo-slave-rs-sg.rayjump.com:27017"
+#Mongo = "52.221.167.120:27017"
+TimeOut = 600
+# 读取增量时往前偏移秒数
+UpdateOffset = 7
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "campaignFake"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "app"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "publisher"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "unit"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "config"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "configcenter"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "campaign"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "config_id_package_name"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "config_algorithm_fillrate"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "advertiser"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "adx_dsp_config"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "adx_traffic_media_config"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "app_package_mtg_id"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "ssp_profit_distribution_rule"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "freq_control_factor"
+[[ExtraConfig.DbConfig]]
+Db = "new_adn"
+Collection = "placement"

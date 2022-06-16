@@ -1,0 +1,19 @@
+redis:
+  cluster: true
+  dial_timeout: "100ms"
+  read_timeout: "100ms"
+  write_timeout: "100ms"
+  idle_timeout: "3m"
+  pool_size: 100
+  min_idle_conns: 20
+  max_redirects: 1
+  db: 0
+  network: "tcp"
+  host: "adn-ip-cache-sg.rayjump.com:6379"
+  auth: ""
+  expire: "1h"
+netacuity:
+  feature_code: 4
+  api_id: 12
+  host: "netacuity.m-iplib.svc.cluster.local"
+  timeout: 100

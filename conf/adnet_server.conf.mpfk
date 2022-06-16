@@ -1,0 +1,125 @@
+[HttpConfig]
+#服务端口
+Port = 9091
+Region = "mp-fk"
+Cloud = "aws"
+RegionName = "frankfurt"
+ServerIpUrl = "http://169.254.169.254/latest/meta-data/public-ipv4"
+DefaultIconUrls = ["cdn-adn-https.rayjump.com/cdn-adn/default-icon/1.png", "cdn-adn-https.rayjump.com/cdn-adn/default-icon/2.png"]
+SDkVersions = ["MAL_7.6.6","MI_1.5.0"]
+DNSInterval = 30
+AndroidNot302Ver = [8013200, 8013400, 8013500, 8013700, 8013800, 8013900, 8014200, 8014400]
+RateLimit = 1000
+MaxRateLimit = 300
+ConfigCenterKey = "mobpower_fk"
+ToMongo = false
+PprofPath = "/pprof"
+CommonPath = "./conf/adnet_common.conf"
+TreasureBoxConfigPath="./conf/treasure_box.conf.fk"
+MgoExtractorPath = "./conf/mgo.yaml"
+BackendPath = "./conf/ad_backends.conf"
+#是否走redis 压缩数据 false不走，true走
+RedisDecode = false
+RuntimeLogRate = 5
+IpRedisLimit = 450
+MKVConf = "./conf/mkv_conf.fk.json"
+UseCtRedisConsul = true
+UseMongoConsul = true
+ConsuleConfig = "./conf/consul.mpfk.yaml"
+
+[CpMongoConsulConfig]
+Address = "127.0.0.1:8500"
+Service = "mongoslave"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 6.0
+CpuThreshold = 0.7
+
+[IpInfoClusterConfig]
+# ip:port对，多个以;分隔
+HostPort="adn-ip-cache-fk.rayjump.com:6379"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=450
+
+[RedisClusterConfig]
+# ip:port对，多个以;分隔
+HostPort="adnet-redis-cluster.demxqv.clustercfg.euc1.cache.amazonaws.com:6379"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[RedisAlgoConfig]
+# ip:port对，多个以;分隔
+HostPort="127.0.0.1:6382"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[RedisLocalConfig]
+# ip:port对，多个以;分隔
+HostPort="127.0.0.1:6380"
+#连接超时 毫秒
+ConnectTimeout=30
+# 读超时 毫秒
+ReadTimeout=30
+# 写超时 毫秒
+WriteTimeout=30
+# 单个节点最大连接数
+PoolSize=200
+
+[CtRedisConsulConfig]
+Address = "127.0.0.1:8500"
+Service = "adnet_creative_redis"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 1.0
+CpuThreshold = 0.7
+
+[Service]
+[[Service.ServiceDetail]]
+Name = "Mintegral"
+ID = 1
+Workers = 100
+HttpURL = "adserver-online-fk.mobvista.com:9099"
+HttpsURL = "adserver-online-fk.mobvista.com:9099"
+Timeout = 500
+UseConsul = true
+[Service.ServiceDetail.ConsulCfg]
+Address = "127.0.0.1:8500"
+Service = "as"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 1.5
+CpuThreshold = 0.7
+
+[[Service.ServiceDetail]]
+Name = "Pioneer"
+ID = 13
+Workers = 100
+HttpURL = "http://pioneer-aws-fk.rayjump.com:6066"
+HttpsURL = "https://pioneer-aws-fk.rayjump.com:6066"
+Timeout = 500
+UseConsul = true
+[Service.ServiceDetail.ConsulCfg]
+Address = "127.0.0.1:8500"
+Service = "pioneer"
+MyService = "adnet"
+Internal = 200
+ServiceRatio = 1.5
+CpuThreshold = 0.7

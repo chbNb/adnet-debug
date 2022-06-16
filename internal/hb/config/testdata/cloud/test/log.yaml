@@ -1,0 +1,8 @@
+bid_log: "/data/adn_logs/aladdin/bid/bid.log"
+load_log: "/data/adn_logs/aladdin/load/load.log"
+event_log: "/data/adn_logs/aladdin/event/event.log"
+runtime_log: "/data/adn_logs/aladdin/runtime/runtime.log"
+watch_log: "/data/adn_logs/aladdin/watch/watch.log"
+creative_log: "/data/adn_logs/aladdin/creative/creative.log"
+midway_req_log: "/data/adn_logs/aladdin/midway_request/midway_request.log"
+req_monitor_log: "/data/adn_logs/aladdin/monitor/monitor.log"

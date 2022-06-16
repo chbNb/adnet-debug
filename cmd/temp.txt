@@ -1,0 +1,16 @@
+{‘id‘:‘d365daba4150f911f3310f
+84bf1849be57b5f797‘,‘at‘:1,‘bcat‘:[‘IAB26-4‘,‘IAB26-2‘,‘IAB25-6‘,‘IAB25-5‘,‘IAB25-4‘,‘IAB25-3‘,‘IAB25-1‘,‘IAB2
+5-7‘,‘IAB8-18‘,‘IAB26-3‘,‘IAB26-1‘,‘IAB8-5‘,‘IAB25-2‘,‘IAB11-4‘],‘tmax‘:3000,‘app‘:{‘name‘:‘Race Master‘,‘ver‘:‘2‘,‘bundle‘:‘com.easygames.race‘,‘cat‘:[‘IAB9-30‘],‘id‘:‘148381‘,‘publisher‘:{‘name‘:‘SayGames LTD‘
+,‘ext‘:{‘installed_sdk‘:{‘id‘:‘MINTEGRAL_BIDDING‘,‘sdk_version‘:{‘major‘:7,‘minor‘:0,‘micro‘:4},‘adapter_version‘:{’major‘:7,‘minor‘:0,‘micro‘:4}}}},‘ext‘:{‘orientation‘:1}},‘device‘:{‘ifa‘:‘8434709A-FC47-4EFD-B235-E2AAA4E3EA86‘,‘ip\x2
+2:‘21.242.108.105‘,‘carrier‘:‘Viettel‘,‘language‘:‘en_VN‘,‘make‘:‘apple‘,‘model‘:‘iphone‘,‘ua‘:‘Mozilla/5.0
+ (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148‘,‘hwv‘:‘iPhone12,1‘,‘pxratio‘:2.0,‘os‘:‘i
+os‘,‘devicetype‘:4,‘osv‘:‘15.5.0‘,‘connectiontype‘:2,‘js‘:1,‘h‘:896,‘w‘:414,‘geo‘:{‘type‘:2,‘ipservice‘:3,\
+x22lat‘:37.751,‘lon‘:-97.822,‘long‘:-97.822,‘country‘:‘VNM‘,‘ext‘:{‘org‘:‘DNIC‘,‘isp‘:‘DNIC‘}},‘ext‘:{}},\x
+22imp‘:[{‘id‘:‘1‘,‘displaymanager‘:‘applovin_mediation‘,‘displaymanagerver‘:‘7.0.4‘,‘instl‘:0,‘secure‘:1,‘tagid‘:
+‘519656‘,‘exp‘:14400,‘banner‘:{‘id‘:‘1‘,‘w‘:320,‘h‘:50,‘btype‘:[],‘battr‘:[1,2,5,8,9,14,17],‘pos‘:1,‘format
+‘:[{‘w‘:320,‘h‘:50}]}}],‘user‘:{‘buyeruid‘:‘GaNAfahMGVjwx3iTfBTTxVHjWVRBiAVwxnzSNVjTxnfcNnlF6jfSGaSciVjbWnl9xURwfahPx0TPxav9WnlTGnz7fnlANnNB
+NgeI6deIL5SEYFPQinRsi+MP6j2z+Ah/io9T6alBGo9MiavMiaS9inhPi09MiavMiaSInkK1LkesDZI2WUvlp7QNL7K/HnslN2S5R7QNL7K/HZSyVBvef5I2R7euLFVlnkcURjKnRcluRjcMh7eQ5F50ZFQTWADMfZ9eWUj2Ro
+tWZcxfnoMlY7Q8HZSdHkf8YB3lnkK0LkeQWAj2xnjTGdeIkAjPGnleGnNefURB++MefUV2iniAiAN9fAvA6aR/igMAGaNPWUhPfUlbf+eIkAjFfAhbiUR9++MefbMM6ajBfA3AiB99GnlTiAtIfU3MfaD/Ga39fai96ajFfnib
+fnjMGa5Ii09B6azIN3t9L7e8Lgftxcx9fUhAka3PYQt25bEPN3P6kUtwYUfPGd5nhnSuJkIFnUJ2J02Z47f7J7efDnjwZbNBY321ZgM2xQKT4VHTZTtSNnxk4nfnGnzTicKRnjQdVbH5VTtTJjKgn2SpnrxMk+JUicf0xjfiLU
+zAnFwbJAxo5QzpD2HS6j9eiaxSVdMT+ARsf2ITWaNA+AfI6deI‘,‘ext‘:{‘gdpr‘:0}},‘regs‘:{‘ext‘:{‘ccpa‘:0,‘gdpr‘:0}},‘source‘:{‘ext’:{‘schain‘:{‘ver‘:‘1.0‘,‘complete‘:1,‘nodes‘:[{‘asi‘:‘applovin.com‘,‘sid‘:‘f25d4970f9e8b4a0b9429a2a57aa7f62‘,‘ri
+d‘:‘d365daba4150f911f3310f84bf1849be57b5f797‘,‘hp‘:1}]}}}}

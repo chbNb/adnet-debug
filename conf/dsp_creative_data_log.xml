@@ -1,0 +1,12 @@
+<seelog>
+    <outputs formatid="access">
+        <filter levels="info">
+            <buffered formatid="access" size="10000" flushperiod="100">
+                <rollingfile type="date" filename="/data/adn_logs/adnet/dsp_creative_data/dsp_creative_data.log" datepattern="2006-01-02-15" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="access" format="%Msg%n"/>
+    </formats>
+</seelog>

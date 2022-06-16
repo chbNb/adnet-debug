@@ -1,0 +1,144 @@
+Register:
+  IsSupportConsul: false
+
+AppConsul:
+  ServiceIP: "127.0.0.1"
+  Port: 9091
+  ServiceName: "adnet_server"
+  Tags:
+    - "adnet_server"
+  ConsulSchema: "http"
+  ConsulAgent: "127.0.0.1:8500"
+  CheckInterval: "5s"
+
+# type:1,2,3,4; 分别对应prometheus统计类型:counter,gauge,histogram,summary
+Metrics:
+  Namespace: "mtg_app"
+  Subsystem: "adnet_server"
+  IsOpenWatcherMetrics: false
+  Datas:
+    - Index: 0
+      Type: 1
+      Name: "api_request_total"
+      Help: "api请求统计"
+      Labels: "method-api"
+    - Index: 1
+      Type: 2
+      Name: "api_response_time"
+      Help: "api响应时间"
+      Labels: "method-api"
+    - Index: 2
+      Type: 4
+      Name: "api_duration_summary"
+      Help: "api响应时间分位"
+      Labels: "method-api"
+    - Index: 3
+      Type: 4
+      Name: "backend_duration_summary"
+      Help: "后台响应时间分位"
+      Labels: "backid"
+    - Index: 4
+      Type: 1
+      Name: "backend_code_total"
+      Help: "后台返回code统计"
+      Labels: "backid-code-adtype"
+    - Index: 5
+      Type: 2
+      Name: "pipeline_time"
+      Help: "后台返回code统计"
+      Labels: "pipeline"
+    - Index: 6
+      Type: 1
+      Name: "set_bidcache_error"
+      Help: "写bidcache失败"
+      Labels: ""
+    - Index: 7
+      Type: 1
+      Name: "get_bidcache_error"
+      Help: "读bidcache失败"
+      Labels: "event"
+    - Index: 8
+      Type: 1
+      Name: "token_expired"
+      Help: "token过期"
+      Labels: "event"
+    - Index: 9
+      Type: 2
+      Name: "mapping_server_response_time"
+      Help: "mapping server响应时间"
+      Labels: ""
+    - Index: 10
+      Type: 1
+      Name: "mapping_server_resp_code"
+      Help: "mapping server响应code"
+      Labels: "code"
+    - Index: 11
+      Type: 1
+      Name: "mapping_server_ruid_empty"
+      Help: "mapping serverruid为空值"
+      Labels: ""
+    - Index: 12
+      Type: 4
+      Name: "mapping_server_response_time_summary"
+      Help: "mapping server响应时间分位"
+      Labels: ""
+    - Index: 13
+      Type: 1
+      Name: "mapping_server_error_httpcode"
+      Help: "mapping server响应error httpcode"
+      Labels: "code"
+    - Index: 14
+      Type: 1
+      Name: "mapping_server_request_error"
+      Help: "mapping server请求错误情况"
+      Labels: "error"
+    - Index: 15
+      Type: 1
+      Name: "get_mapping_idfa_times"
+      Help: "满足切量条件，请求aerospike次数"
+      Labels: ""
+    - Index: 16
+      Type: 1
+      Name: "has_mapping_idfa_times"
+      Help: "请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 17
+      Type: 1
+      Name: "get_mapping_idfa_by_sysid_times"
+      Help: "根据sysid，请求aerospike次数"
+      Labels: ""
+    - Index: 18
+      Type: 1
+      Name: "has_mapping_idfa_by_sysid_times"
+      Help: "根据sysid，请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 19
+      Type: 1
+      Name: "get_mapping_idfa_by_idfv_times"
+      Help: "根据idfv，请求aerospike次数"
+      Labels: ""
+    - Index: 20
+      Type: 1
+      Name: "has_mapping_idfa_by_idfv_times"
+      Help: "根据idfv，请求aerospike获取到有效的idfa数"
+      Labels: ""
+    - Index: 21
+      Type: 4
+      Name: "geo_client_response_time_summary"
+      Help: "geo client响应时间分位"
+      Labels: ""
+    - Index: 22
+      Type: 1
+      Name: "zone_node_select"
+      Help: "根据zone挑选对应的节点"
+      Labels: "mod-local-remote"
+    - Index: 23
+      Type: 1
+      Name: "more_offer_backend_err_total"
+      Help: "more_offer/appwall请求错误次数"
+      Labels: "backid-adtype"
+    - Index: 24
+      Type: 1
+      Name: "backend_code_total_by_adtype"
+      Help: "后台返回code分adtype统计"
+      Labels: "backid-code-adtype"

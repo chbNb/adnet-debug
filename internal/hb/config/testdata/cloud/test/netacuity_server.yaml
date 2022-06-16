@@ -1,0 +1,6 @@
+feature_code: 4
+api_id: 12
+net_server_ip: "adn-iplib-internal-fk.rayjump.com"
+timeout_delay: 20
+expire: 3600
+grpc_address: "a8644b6f65ba7404b93e678c19a1c62e-114010529.us-east-1.elb.amazonaws.com:9000"

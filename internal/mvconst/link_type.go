@@ -1,0 +1,24 @@
+package mvconst
+
+const (
+	APPSTORE = iota + 1
+	GP
+	APK
+	BRAND
+	OTHER
+	ALLOWINCENTOFFER
+	CPM
+	CPC
+	CPI
+	CPA
+)
+
+const (
+	LINK_TYPE_APPSTORE     = 1
+	LINK_TYPE_GOOGLEPLAY   = 2
+	LINK_TYPE_APK          = 3
+	LINK_TYPE_OTHER        = 4
+	LINK_TYPE_IPA          = 5
+	LINK_TYPE_SUBSCRIPTION = 6
+	LINK_TYPE_WEBSITE      = 7
+)

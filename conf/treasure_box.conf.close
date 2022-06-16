@@ -1,0 +1,2 @@
+# 是否使用TB，false表示整个TB都不会使用
+use_treasure_box_sdk: false

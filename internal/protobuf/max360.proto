@@ -1,0 +1,508 @@
+// version: 1.8
+syntax = "proto2";
+
+package protobuf;
+
+message BidRequest {
+
+  //------------------------------------------- 协议基础信息
+  // MAX生成的唯一的竞价ID，32字节的字符串
+  required string bid = 1;
+
+  // 如果不为0，那么这是一个测试请求。
+  // DSP需要返回一个正常填写的应答
+  // 不会展现给用户，且不会对该次请求计费
+  optional uint32 is_test = 9 [default = 0];
+
+  //------------------------------------------- 浏览者信息
+
+  // 已弃用， 由mv_user_id代替
+  optional string mediav_user_id = 2 [deprecated = true];
+
+  // MAX用户身份标识
+  optional string mv_user_id = 17;
+
+  // 额外用户身份标识
+  optional string mid = 20;
+
+  // 用户的IP地址， ipv4
+  // 例如：192.168.1.1
+  optional string ip = 3;
+
+  // 用户的浏览器类型，即HTTP请求头部的User-Agent
+  optional string user_agent = 4;
+
+  // 用户垂直类别
+  // 预留字段，暂无实际值
+  repeated int32 user_vertical = 10;
+
+  message UserCategory
+  {
+    // 人群类别
+    // 字典： 聚效人群类别字典
+    required int32 id = 1;
+    // 人群类别的的置信度， 取值范围(0, 1000]
+    required int32 weight = 2 [default = 1000];
+  }
+  // 用户人群类别
+  repeated UserCategory user_category = 19;
+
+  //------------------------------------------ 网页信息
+
+  // 推广位所在的页面url
+  optional string url = 5;
+
+  // 推广位所在页面是否是HTTPS站点
+  optional bool is_https = 21;
+
+  // 流量所属来源，0：MAX自有流量，1：趣游流量，2：联盟流量，3：大客流量
+  optional uint32 adx_type = 6 [default = 0];
+
+  // 预留字段，暂无实际值
+  optional string detected_language = 11;
+
+  // 广告位所在的媒体的id
+  optional int32 publisher_id = 13;
+
+  // 广告位所在媒体的类别
+  repeated int32 publisher_category = 14;
+
+  // category字段版本号， 目前为1
+  optional int32 publisher_category_version = 15;
+
+  message ContentCategory
+  {
+    // 广告位所在页面的上下文类别
+    // 字典： 聚效上下文类别字典
+    required int32 id = 1;
+    // 页面上下文的置信度， 取值范围(0, 1000]
+    required int32 weight = 2 [default = 1000];
+  }
+  // 页面上下文类别
+  repeated ContentCategory content_category = 18;
+
+  //------------------------------------------- 推广位基础信息
+  message AdSlot {
+    // 推广位编号
+    required uint32 id = 1;
+
+    // 推广位的唯一标识
+    optional string pid = 2;
+
+    // 允许的推广位的尺寸:
+    optional int32 width = 3;
+    optional int32 height = 4;
+
+    // 推广位的展现形式 PC流量 0: 未知 1： 固定 2： 弹窗 3： 对联 4： 客户端 5： 视频暂停位
+    // 移动流量 6: 插页广告 10: 横幅广告 12：信息流广告 13：嵌入式广告 14：开屏广告 15：焦点图广告
+    repeated uint32 view_type = 5;
+
+    // 最低竞标价格，货币单位为人民币，数值含义为微分(10^-6元)/千次展现
+    optional uint32 min_cpm_price = 6;
+
+    // 推广位的可见形式， 0 未定义, 1 首屏, 2 非首屏
+    enum SlotVisibility  {
+      NO_DETECTION = 0;
+      ABOVE_THE_FOLD = 1;
+      BELOW_THE_FOLD = 2;
+    }
+    optional SlotVisibility slot_visibility = 7 [default = NO_DETECTION];
+
+    // 推广位等级，即推广位允许投放的最低创意级别，低于此等级的创意不允许投放
+    // 创意级别由高到低依次为：A级(1000); B级(2000); C级(3000)
+    // 该创意级别与创意审核接口以及广告位接口返回的创意级别一致
+    optional uint32 adslot_level = 10;
+
+    // 推广位禁止的广告主id
+    repeated string excluded_advertiser_id = 11;
+
+    // 原生推广位信息，该字段设置即为原生推广位
+    message Native {
+      // 推广位可以展示的原生广告数量
+      optional uint32 ad_num = 1;
+
+      // 推广位允许的广告打开方式，仅对移动APP原生流量有效，0：内开 1：下载 2：外开
+      repeated int32 landing_type = 2;
+
+      // 推广位允许的原生模板，模板规范了广告返回格式，并对原生广告的属性有详细的描述
+      // 字典：聚效广告模版字典
+      message NativeTemplate {
+        // 每一种广告返回格式，MAX都会分配一个模版id来标识
+        required int32 template_id = 1;
+
+        // 对应模板的JSON描述，预留
+        optional string template_desc = 2;
+
+        // 对应模版要求返回的素材数量，对应NativeAd.Creative的数量，默认为1
+        optional int32 creative_num = 3;
+
+        message ImageSize
+        {
+          required int32 width = 1;
+          required int32 height = 2;
+        }
+        repeated ImageSize image_size = 4;
+      }
+      repeated NativeTemplate native_template = 4;
+
+      // 推广位允许的原生模板id，模板id规范了广告样式，并对原生广告的属性有详细的描述
+      // 字典：聚效广告模板字典
+      repeated int32 template_id = 3; // DELETED 该字段已废弃，请使用NativeTemplate.template_id
+    }
+    optional Native native = 8;
+
+    // 优先交易信息
+    message Deal {
+      // 优先交易ID
+      required int64 deal_id = 1;
+
+      // 优先交易类型
+      enum DealType {
+        UNKNOWN_DEAL_TYPE = 0;
+        PREFERRED_DEAL = 1;         // PD
+        PRIVATE_AUCTION = 2;        // PA
+        PRIVATE_DIRECT_BUY = 3;     // PDB
+      }
+      required DealType deal_type = 2 [default = UNKNOWN_DEAL_TYPE];
+
+      // 交易的价格/底价
+      optional uint32 price = 4;
+
+      // 广告生效日期（目前仅对开屏联动流量生效）
+      optional string date = 3;
+    }
+    repeated Deal deals = 9;
+  }
+  repeated AdSlot adslot = 7;
+
+  // 广告位禁止的创意属性，1：纯图片，2：纯文字，3：图文混合，4：FLASH
+  repeated int32 excluded_attribute = 16;
+
+  // 媒体禁止的广告行业类目， 字典: 聚效广告主行业字典
+  repeated int32 excluded_ad_category = 12;
+
+  //------------------------------------------- 无线推广位其他信息
+  message Mobile {
+    // 标识该次广告请求是否来自APP应用
+    optional bool is_app = 1;
+
+    // 推广位是否全屏展示
+    optional bool is_fullscreen = 2;
+
+    // 推广位所在的应用id, 字典： 移动APP应用列表
+    optional string app_id = 3;
+
+    // android app包名，如 com.hy.supermario
+    optional string package_name = 6;
+
+    message Device {
+      // 设备平台(小写), 暂时不提供
+      optional string platform = 1;
+
+      // 设备型号(小写)
+      // 例如：n70, galaxy.
+      optional string model = 3;
+
+      // 操作系统(小写)
+      // 例如：android, ios
+      optional string os = 4;
+
+      // 操作系统版本
+      // 例如：7.0.2
+      optional string os_version = 5;
+
+      // 设备所处网络环境
+      // 0-未识别, 1-wifi, 2-2g, 3-3g, 4-4g, 5-未知移动网络
+      optional uint32 network = 6;
+
+      // 设备的网络运营商
+      // 0-未知, 1-移动, 2-联通, 3-电信
+      // 预留字段，目前都为0
+      optional int32 carrier_id = 7;
+
+      // 设备所在地理位置的经度(小数点格式)
+      // 例如：116.41667
+      optional string longitude = 8;
+
+      // 设备所在地理位置的纬度(小数点格式)
+      // 例如：39.91667
+      optional string latitude = 9;
+
+      // 设备的屏幕宽度像素
+      optional int32 screen_width = 10;
+
+      // 设备的屏幕高度像素
+      optional int32 screen_height = 11;
+
+      // 设备屏幕的方向
+      enum ScreenOrientation {
+        SCREEN_ORIENTATION_UNKNOWN = 0;
+        SCREEN_ORIENTATION_PORTRAIT = 1;
+        SCREEN_ORIENTATION_LANDSCAPE = 2;
+      }
+      optional ScreenOrientation screen_orientation = 12 [default = SCREEN_ORIENTATION_UNKNOWN];
+
+      // IOS设备idfa号(OS版本6及以上)(预留字段)
+      optional string idfa = 13;
+      // IOS设备idfa号(OS版本6及以上)(原始值或者小写值)被md5 hash后的小写值
+      optional string hashed_idfa = 14;
+
+      // android设备系统的imei(预留字段)
+      optional string imei = 16;
+      // android设备系统的imei(原始值或者小写值)被md5 hash后的小写值
+      optional string hashed_imei = 15;
+
+      // android设备id(预留字段)
+      optional string android_id = 17;
+      // android设备id(原始值或者小写值)被md5 hash后的小写值
+      optional string hashed_android_id = 18;
+
+      // 设备的mac地址(预留字段)
+      optional string mac = 19;
+      // 设备的mac地址(原始值或者小写值)被md5 hash后的小写值
+      optional string hashed_mac  = 20;
+
+      // MAX内部标识的设备id(预留字段)
+      optional string m2id = 21;
+    }
+    optional Device device = 4;
+
+    // app的类别， 字典: 聚效移动应用类型字典
+    repeated int32 app_category = 5;
+  }
+  // 若本字段被设置，则本次请求，来自移动设备。
+  optional Mobile mobile = 8;
+
+  // 请求中没有列出的字段(保留字段)
+  optional string extend_data = 100;
+}
+
+
+message BidResponse {
+
+  // 请填充BidRequest中的bid, 32字节的字符串
+  required string bid = 1;
+
+  //------------------------------------------- 广告信息
+
+  // 广告定义
+  // 若DSP不对本次请求报价，则不要设置本字段
+  message Ads {
+    // 标记该广告对应的推广位的编号
+    required uint32 adslot_id = 1;
+
+    // 最高竞标价格，货币单位为人民币，数值含义为(10^-6元)/千次展现
+    // 该字段值不允许为0
+    // 且不能低于推广位最低竞标价格(BidRequest.min_cpm_price)
+    required uint32 max_cpm_price = 2;
+
+    // 广告代码片段，针对非原生流量，DSP必填
+    // 详细用法请参见API文档
+    optional string html_snippet = 3;
+
+    // 原生广告信息，针对原生流量，DSP必填
+    repeated NativeAd native_ad = 13;
+
+    // DSP声明的本广告所属的广告行业类目，针对非原生流量，DSP必须填写
+    repeated int32 category = 4;
+
+    // DSP声明的广告创意类型, 目前必须为1, 表示HTML创意，针对非原生流量，DSP必须填写
+    repeated int32 creative_type = 5;
+
+    // DSP声明的广告创意属性，详见BidRequest.excluded_attribute，针对非原生流量，DSP必须填写
+    repeated int32 creative_attribute = 14;
+
+    // 用户点击广告后跳转的最终目标页面地址，针对非原生流量，DSP必须填写
+    // 必须以http://或者https://开头.
+    repeated string destination_url = 6;
+
+    // 广告主id，DSP必须填写
+    // 长度不超过32字节，且只能是字符、数字、减号、下划线的组合，如果包含其他字符，将会被过滤
+    optional string advertiser_id = 7;
+
+    // 广告创意id，DSP必须填写
+    // 长度不超过64字节，且只能是字符、数字、减号、下划线的组合，如果包含其他字符，将会被过滤
+    optional string creative_id = 8;
+
+    // 创意的宽度合高度，必须与BidRequest中的尺寸吻合，针对非原生流量，DSP必须填写
+    optional int32 width = 9;
+    optional int32 height = 10;
+
+    // DSP自定义的extend data， exchange会对其内容作一次base64编码并替换到创意代码的%%EXTEND_DATA%%宏中
+    optional string extend_data = 11;
+
+    // DSP自定义的notice url,如果被创意正常展示，会向这个url发起HTTP请求，DSP可以使用这个url来做展示跟踪
+    optional string nurl = 12;
+  }
+  repeated Ads ads = 3;
+}
+
+
+// 该接口专门为原生广告竞价设计
+message NativeAd {
+
+  // 最高竞标价格，货币单位为人民币，数值含义为(10^-6元)/千次展现
+  // 该字段值不允许为0
+  // 且不能低于推广位最低竞标价格(BidRequest.min_cpm_price)
+  required uint32 max_cpm_price = 1;
+
+  // 原生创意素材资源描述
+  message Creative {
+
+    // 原生创意模板id
+    optional int32 template_id = 9;   // DELETED 该字段已废弃，请使用NativeAd.template_id
+
+    // 创意标题，具体以创意模板的要求为准
+    // 推荐填写创意的主要Slogan
+    optional string title = 1;
+
+    // 创意子标题，一般都是紧随标题出现，10个字以内，具体以创意模板的要求为准
+    // 可以填写DSP名称、广告主名称、价格、Rating等信息
+    optional string sub_title = 2;
+
+    // 创意描述，具体以创意模板的要求为准
+    // 可以填写更详细的商品说明或者品牌推广信息
+    optional string description = 3;
+
+    // 按钮名称，2~4个字，具体以创意模板的要求为准
+    // 可以为Call To Action或者广告主名称
+    optional string button_name = 4;
+
+    // 图片信息
+    message Image {
+      // 图片地址
+      optional string image_url = 1;
+
+      // 图片的宽度和高度
+      optional int32 image_width = 2;
+      optional int32 image_height = 3;
+    }
+
+    // 创意主图信息(除多图模版外，其他模版必填)，JPG/PNG/静态GIF，尺寸及K数对应关系参考：素材尺寸与占比表格，具体以创意模板的要求为准
+    optional Image content_image = 5;
+
+    // 创意组图信息(仅多图模版填写)，JPG/PNG/静态GIF，具体以创意模板的要求为准
+    repeated Image multi_images = 12;
+
+    // 创意联动图信息(仅开屏联动模版填写)，JPG/PNG/静态GIF，K数：50K以内，具体以创意模板的要求为准
+    optional Image linked_image = 8;
+
+    // 广告主logo信息，JPG/PNG/静态GIF，尺寸：200X200，K数：50K以内，具体以创意模板的要求为准
+    optional Image logo = 6;
+
+    // 视频广告信息
+    message Video {
+      // 视频地址
+      optional string video_url = 1;
+
+      // 视频时长
+      optional int32 duration = 2;
+
+      // 视频文件MD5后的值，例如：d8bff3104d4ac1b246061c9b6355bea4
+      optional string video_md5 = 3;
+
+      // 视频文件的大小，单位是字节，例如：126465485
+      optional int32 video_size = 4;
+
+      // DSP自定义的视频开始播放追踪(视频开始播放时, 发送视频开始追踪)
+      repeated string video_start_tracks = 5;
+
+      // DSP自定义的视频暂停追踪
+      repeated string video_pause_tracks = 6;
+
+      // DSP自定义的视频继续追踪
+      repeated string video_continue_tracks = 7;
+
+      // DSP自定义的视频退出追踪
+      repeated string video_exit_tracks = 8;
+
+      // DSP自定义的视完成追踪
+      repeated string video_complate_tracks = 9;
+    }
+    optional Video video = 13;
+
+    // 点击交互信息
+    message Link {
+      // 点击地址
+      optional string click_url = 1;
+
+      // deep_link地址，如果使用该字段，则DSP的点击监测需要放到click_tracks字段
+      // 建议在设置该字段的同时，也设置一个click_url，如果deep_link跳转失败，我们会继续使用click_url进行跳转
+      optional string deep_link = 4;
+
+      // deep_link唤起成功追踪
+      // 有些对接方式触发deep_link唤起成功追踪并不是必需的，但是只要该追踪触发就一定是唤起成功了
+      repeated string deep_link_success_tracks = 6;
+
+      // DSP声明的广告打开方式，仅对移动APP原生流量有效
+      // 且必须从广告位允许的广告打开方式中选取(BidRequest.AdSlot.Native.landing_type)
+      // 如果落地页地址为安装包地址，则必须指定打开方式为下载
+      optional int32 landing_type = 2;
+
+      // DSP自定义的素材点击追踪地址(素材被点击时，发送素材点击追踪)
+      // 如果素材点击被正常触发，会向该地址发送HTTP请求
+      repeated string content_click_tracks = 5;
+
+      // DSP自定义的点击追踪地址(点击地址触发时，发送点击追踪)
+      // 如果点击被正常触发，会向该地址发送HTTP请求
+      repeated string click_tracks = 3;
+    }
+    optional Link link = 7;
+  }
+  repeated Creative creatives = 2;
+
+  // 原生创意模板id，针对原生流量，DSP必须填写
+  optional int32 template_id = 10;
+
+  // 应用下载类广告中应用的详细信息
+  // 应用下载类广告必须填写该字段
+  message AppAttr {
+
+    // 应用（APP）的名称，例如：唯品会
+    optional string app_name = 1;
+
+    // 应用（APP）的包名，例如：com.achievo.vipshop
+    optional string app_pkg = 2;
+
+    // 应用（APP）的pkg包MD5后的值，例如：d8bff3104d4ac1b246061c9b6355bea4
+    optional string app_md5 = 3;
+
+    // 应用（APP）的版本号(version code)，例如：632
+    optional int32 app_vc = 4;
+
+    // 应用（APP）的包大小，单位是字节，例如：41051697
+    optional int32 app_size = 5;
+  }
+  optional AppAttr app_attr = 9;
+
+  // DSP自定义的竞价过滤追踪地址(仅支持HTTP协议)，DSP选择填写
+  // 如果广告竞价被过滤，会由服务器触发竞价过滤追踪，支持%%FILTER_REASON%%宏替换
+  // %%FILTER_REASON%%宏会被替换成广告过滤原因ID，ID与原因的映射关系详见MAX广告过滤行业字典
+  repeated string filter_notice_tracks = 12;
+
+  // DSP自定义的竞价胜出追踪地址(仅支持HTTP协议)，DSP选择填写
+  // 如果广告竞价胜出，会由服务器触发竞价胜出追踪，支持%%WIN_PRICE%%宏替换
+  repeated string win_notice_tracks = 11;
+
+  // DSP自定义的展示跟踪地址，DSP必须填写
+  // 如果广告正常展示，会由客户端触发展示追踪，支持%%WIN_PRICE%%宏替换
+  repeated string impression_tracks = 3;
+
+  // DSP声明的本广告所属的广告行业类目，DSP必须填写
+  repeated int32 category = 4;
+
+  // 用户点击广告后跳转的最终目标页面地址，DSP必须填写
+  // 必须以http://或者https://开头.
+  repeated string destination_url = 5;
+
+  // 广告主id, DSP必须填写
+  // 长度不超过32字节，且只能是字母、数字、减号、下划线的组合，如果包含其他字符，将会被过滤
+  optional string advertiser_id = 6;
+
+  // 广告创意id，DSP必须填写
+  // 长度不超过64字节，且只能是字母、数字、减号、下划线的组合，如果包含其他字符，将会被过滤
+  optional string creative_id = 7;
+
+  // DSP声明创意对应的dealid，与BidRequest.AdSlot.Deal.deal_id一致
+  optional int64 deal_id = 8;
+}

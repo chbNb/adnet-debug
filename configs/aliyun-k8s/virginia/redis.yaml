@@ -1,0 +1,18 @@
+caches:
+  - "redis"
+# compressor:
+#   package: "mykv"
+#   class: "Compressor"
+# serializer:
+#   package: "mykv"
+#   class: "Serializer"
+gcache:
+  class: "NoCache"
+redis:
+  class: "RedisClusterString"
+  address: "ipinfo-cache-internal-vg.rayjump.com:6379"
+  poolSize: 30
+  timeout: "100ms"
+  retries: 0
+  keyIdx: 8
+  keyLen: 7

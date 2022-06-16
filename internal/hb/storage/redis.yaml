@@ -1,0 +1,18 @@
+caches:
+  - "redis"
+# compressor:
+#   package: "mykv"
+#   class: "Compressor"
+# serializer:
+#   package: "mykv"
+#   class: "Serializer"
+gcache:
+  class: "NoCache"
+redis:
+  class: "RedisSingle"
+  address: "127.0.0.1:6379"
+  poolSize: 30
+  timeout: "20ms"
+  retries: 0
+  keyIdx: 8
+  keyLen: 7

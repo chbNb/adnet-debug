@@ -1,0 +1,300 @@
+syntax = "proto2";
+package protobuf.baidu;
+// 本文件描述API接口版本：5.6.0
+
+// 版本号信息
+message Version {
+    optional uint32 major = 1[default = 0]; // 必填！
+    optional uint32 minor = 2[default = 0]; // 选填！
+    optional uint32 micro = 3[default = 0]; // 选填！
+};
+
+// 应用信息
+message App {
+    optional string app_id = 1[default = ""];  // 必填！应用ID，在Mobile SSP（以下简称MSSP）完成注册，并上传应用通过审核后，平台会提供应用ID
+    optional string channel_id = 2;  // 选填！发布渠道ID，渠道接入方必需填写
+    optional Version app_version = 3;  // 必填！应用版本，将影响优选策略
+    optional string app_package = 4; // 必填！应用包名，需要跟应用提交时一一对应，中文需要UTF-8编码
+};
+
+// 唯一用户标识，必需使用明文，必需按要求填写，具体填写指导详见接口说明文档
+message UdId {
+    optional string idfa = 1[default = ""];  // iOS设备的IDFA，格式要求[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    optional string imei = 2[default = ""];  // Android手机设备的IMEI，格式要求[0-9a-fA-F]{14,15}
+    optional string mac = 3[default = ""];  // Android非手机设备的WiFi网卡MAC地址，格式要求[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}
+    optional string imei_md5 = 4[default = ""]; // Android手机设备的IMEI，经过MD5加密，格式要求[0-9A-Za-z]{32}
+    optional string android_id = 5[default = ""]; //必填！Android手机设备系统ID，格式要求[0-9A-Za-z]{16}
+    optional string baiduid = 6[default = ""]; // [百度系App使用] Android / iOS 设备可选参数，格式要求[0-9A-Za-z]{32}
+    optional string cuid = 7[default = ""]; // [百度系App使用] Baidu内部使用设备唯一标识符，格式暂不check，由大小写字母、数字和'|'构成
+    optional string idfa_md5 = 8[default = ""]; // iOS设备的IDFA，经过MD5加密，格式要求[0-9A-Za-z]{32}
+    optional string androidid_md5 = 9[default = ""]; // Android手机设备系统ID，经过MD5加密，格式要求[0-9A-Za-z]{32}
+    optional string passport = 10[default = ""]; // 媒体登陆账号
+};
+
+// 二维尺寸信息
+message Size {
+    optional uint32 width = 1[default = 0];  // 必填！宽度
+    optional uint32 height = 2[default = 0];  // 必填！高度
+};
+
+// 设备信息
+message Device {
+    // 设备类型
+    enum DeviceType {
+        PHONE = 1;  // 手机，含iTouch
+        TABLET = 2;  // 平板
+        SMART_TV = 3;  // 智能电视
+        OUTDOOR_SCREEN = 4;  // 户外屏幕
+    };
+    // 操作系统类型
+    enum OsType {
+        ANDROID = 1;  // Android
+        IOS = 2;  // iOS
+    };
+    optional DeviceType device_type = 1;  // 必填！设备类型
+    optional OsType os_type = 2;  // 必填！操作系统类型
+    optional Version os_version = 3;  // 必填！操作系统版本
+    optional bytes vendor = 4[default = ""];  // 必填！设备厂商名称，中文需要UTF-8编码
+    optional bytes model = 5[default = ""];  // 必填！设备型号，中文需要UTF-8编码
+    optional UdId udid = 6;  // 必填！唯一设备标识，必需按要求填写
+    optional Size screen_size = 7; // 必填！设备屏幕宽高
+};
+
+// WiFi热点信息
+message WiFiAp {
+    optional string ap_mac = 1;  // 必填！热点MAC地址，格式要求[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}
+    optional int32 rssi = 2;  // 必填！热点信号强度，通常是负数
+    optional bytes ap_name = 3;  // 必填！热点名称，可不传递，建议传递当前接入热点的名称，用于判断用户当前所处场所，中文需要UTF-8编码
+    optional bool is_connected = 4;  // 必填！是否是当前连接热点，配合热点名称可用于识别用户所处场所
+};
+
+// 网络环境信息
+message Network {
+    // 网络连接类型
+    enum ConnectionType {
+        CONNECTION_UNKNOWN = 0; // 无法探测当前网络状态
+        CELL_UNKNOWN = 1; // 蜂窝数据接入，未知网络类型
+        CELL_2G = 2; // 蜂窝数据2G网络
+        CELL_3G = 3; // 蜂窝数据3G网络
+        CELL_4G = 4; // 蜂窝数据4G网络
+        CELL_5G = 5; // 蜂窝数据5G网络
+        WIFI = 100; // Wi-Fi网络接入
+        ETHERNET = 101; // 以太网接入
+        NEW_TYPE = 999;  // 未知新类型
+    };
+    // 移动运营商类型
+    enum OperatorType {
+        UNKNOWN_OPERATOR = 0; // 未知的运营商
+        CHINA_MOBILE = 1; // 中国移动
+        CHINA_TELECOM = 2; // 中国电信
+        CHINA_UNICOM = 3; // 中国联通
+        OTHER_OPERATOR = 99; // 其他运营商
+    };
+    optional string ipv4 = 1;  // 必填！用户设备的公网IPv4地址，服务器对接必填，格式要求：255.255.255.255
+    optional ConnectionType connection_type = 2;  // 必填！网络连接类型，用于判断网速
+    optional OperatorType operator_type = 3;  // 必填！移动运营商类型，用于运营商定向广告
+    optional string cellular_id = 4;  // 选填！当前连接的运营商基站ID，用于快速用户定位
+    repeated WiFiAp wifi_aps = 5;  // 选填！周边WiFi热点列表，用于精细用户定位
+};
+
+// GPS信息
+message Gps {
+    // GPS坐标类型
+    enum CoordinateType {
+        WGS84 = 1;  // 全球卫星定位系统坐标系
+        GCJ02 = 2;  // 国家测绘局坐标系
+        BD09 = 3;  // 百度坐标系
+    };
+    optional CoordinateType coordinate_type = 1;  // 必填！坐标类型
+    optional double longitude = 2;  // 必填！经度
+    optional double latitude = 3;  // 必填！纬度
+    optional uint32 timestamp = 4;  // 必填！时间戳，单位秒
+};
+
+// 广告效果跟踪信息
+message Tracking {
+    // 广告展示过程事件类型
+    enum TrackingEvent {
+        // 广告展示过程共性事件
+        AD_CLICK = 0;  // 广告被点击
+        AD_EXPOSURE = 1; // 广告被展现
+        AD_CLOSE = 2;  // 广告被关闭
+        SKIP = 3; // 广告跳过
+        CLICK = 4; // 广告点击
+        
+        // 视频类广告展示过程事件
+        VIDEO_AD_START = 101000;  // 视频开始播放
+        VIDEO_AD_FULL_SCREEN = 101001;  // 视频全屏
+        VIDEO_AD_END = 101002;  // 视频正常播放结束
+        VIDEO_AD_START_CARD_CLICK = 101003;  // 点击预览图播放视频
+
+        // 下载类广告推广APP相关事件
+        APP_AD_DOWNLOAD_PAGE = 102000;              // 下载详情页
+        APP_AD_DOWNLOAD = 102001;                   // 立即下载
+        APP_AD_DOWNLOAD_BEGIN = 102002;             // 开始下载
+        APP_AD_DOWNLOAD_PAUSE = 102003;             // 暂停下载
+        APP_AD_DOWNLOAD_CONTINUE = 102004;          // 继续下载
+        APP_AD_DOWNLOAD_FINISH = 102005;            // 完成下载
+        APP_AD_INSTALL = 102006;                    // 立即安装
+        APP_AD_INSTALL_BEGIN = 102007;              // 开始安装
+        APP_AD_INSTALL_PAUSE = 102008;              // 暂停安装
+        APP_AD_INSTALL_CONTINUE = 102009;           // 继续安装
+        APP_AD_INSTALL_FINISH = 102010;             // 安装完成
+        APP_AD_INSTALL_OPEN = 102011;               // 安装后打开
+        APP_AD_ACTIVE = 102012;                     // 激活推广APP
+    };
+    optional TrackingEvent tracking_event = 1;  // 被跟踪的广告展示过程事件
+    repeated string tracking_url = 2;  // 事件监控URL
+};
+
+message Video {
+    optional bytes title = 1;  // 视频标题，UTF-8编码
+    optional uint32 content_length = 2;  // 视频内容长度
+
+    enum CopyRight {
+        CR_NONE = 0;
+        CR_EXIST = 1;
+        CR_UGC = 2;
+        CR_OTHER = 3;
+    };
+    optional CopyRight copyright = 3;  // 视频版权信息
+
+    enum MaterialFormat {
+        VIDEO_TCL_MP4 = 11;  // tcl mp4[tcl专用]
+        VIDEO_TCL_TS = 12; // tcl ts ini包[tcl专用]
+        VIDEO_TS = 13; // common video ts format
+    }
+    repeated MaterialFormat material_format = 4;  // 媒体指定的视频类型
+};
+
+message Page {
+    optional bytes url = 1;  // 请求页面的URL
+    optional bytes title = 2;  // 请求页面的内容标题，UTF-8编码
+    optional bytes source_url = 3;  // 请求页面的内容可能来自另外的网址，该字段表示页面内容来源网址URL
+    optional string content_id = 4;  // 请求页面的内容ID
+    repeated bytes content_category = 5;  // 请求页面的内容分类，UTF-8编码
+    repeated bytes content_label = 6;  // 请求页面的内容标签，UTF-8编码
+    optional string author_id = 7;  // 请求页面内容的作者ID
+};
+
+// 广告位信息
+message AdSlot {
+    optional string adslot_id = 1;  // 必填！广告位ID，需要媒体在MSSP平台进行设置！非常重要！
+    optional Size adslot_size = 2;  // 必填！广告位尺寸
+    repeated bytes topics = 3; // 选填！[百度系App使用] 主题，用于咨询、论坛类app，传递当前版块的主题，中文需要UTF-8编码
+    optional Video video = 4; // 选填，但视频广告位必填！传递视频标题、时长、频道、版权等信息
+    optional string ctkey = 5;  // 选填,内容联盟流量分润ID,内容联盟流量必填
+    optional uint32 sequence_id = 6;  // 选填,广告位在当前页面中的序列号,从1开始
+};
+
+// Baidu Mobads API请求
+message MobadsRequest {
+    // 请求协议类型
+    enum RequestProtocolType {
+        UNKNOWN_PROTOCOL_TYPE = 0; // 未知协议
+        HTTP_PROTOCOL_TYPE = 1; // http协议
+        HTTPS_PROTOCOL_TYPE = 2; // https协议
+    };
+
+    optional string request_id = 1;  // 必填！接入方自定义请求ID，[a-zA-Z0-9]{32}
+    optional Version api_version = 2;  // 必填！API版本，按照当前接入所参照的API文档版本赋值，影响所有后续逻辑，填写错误会导致拒绝请求。
+    optional App app = 3;  // 必填！应用信息
+    optional Device device = 4;  // 必填！设备信息
+    optional Network network = 5;  // 必填！网络环境信息
+    optional Gps gps = 6;  // 选填！GPS定位信息，用于辅助触发LBS广告
+    optional AdSlot adslot = 7;  // 必填！广告位信息
+    optional bool is_debug = 8[default = false];  // 选填！测试流量标记，可获取广告，但不被计费，勿用于线上请求
+    optional RequestProtocolType request_protocol_type = 9[default = HTTP_PROTOCOL_TYPE]; // 选填, https媒体必填！
+    optional Page page = 10;  // 选填！[百度系App使用] 请求页面信息
+};
+
+// 广告元数据组索引结构
+// 一条广告可能包含多个物料元信息,我们统称这些元信息为广告元数据组
+// 返回广告时，total_num表明当前广告包含的物料元数据个数，current_index表明当前的物料元数据在元数据组中的索引
+// 请求多个广告返回时，ad_key唯一标识一个广告元数据组(一个广告)，MetaIndex标识一个元数据组中的每个元数据信息
+message MetaIndex {
+    optional uint32 total_num = 1; // 每条广告对应元素组中元数据总数
+    optional uint32 current_index = 2; // 当前元数据所在索引
+};
+
+// 广告物料元数据信息
+message MaterialMeta {
+    // 创意类型
+    enum CreativeType {
+        NO_TYPE = 0; // 无创意类型，主要针对原生自定义素材广告，不再制定返回广告的创意类型，根据广告位设置对返回字段进行读取即可
+        TEXT = 1;  // 纯文字广告，一般由title、description构成
+        IMAGE = 2;  // 纯图片广告，一般由单张image_src构成
+        TEXT_ICON = 3;  // 图文混合广告，一般由单张icon_src和title、description构成
+        VIDEO = 4;  // 视频广告，一般由视频URL和视频时长构成
+    };
+    // 交互类型
+    enum InteractionType {
+        NO_INTERACTION = 0;  // 无动作，即广告广告点击后无需进行任何响应
+        SURFING = 1;  // 使用浏览器打开网页
+        DOWNLOAD = 2;  // 下载应用
+        DEEPLINK = 3;  // deeplink唤醒
+    };
+    // 图片物料尺寸，宽、高
+    message ImageSize {
+        optional uint32 width = 1; // 宽
+        optional uint32 height = 2; // 高  
+    };
+    optional CreativeType creative_type = 1;  // 创意类型
+    optional InteractionType interaction_type = 2;  // 交互类型
+    repeated string win_notice_url = 3;  // 曝光日志URL列表，在曝光后必须在客户端逐个汇报完
+    optional string click_url = 4;  // 点击行为地址，用户点击后，在客户端进行响应，会经过多次302跳转最终到达目标地址
+    optional bytes title = 5;  // 推广标题（即将废弃），中文需要UTF-8编码。下载类为app名（现请从brand_name取值），非下载类为广告标题（现请从ad_title取值）
+    repeated bytes description = 6;  // 广告描述，默认只有一个元素，暂时约定最多只有两个元素，具体情况已线上广告实际返回结果为准，中文需要UTF-8编码
+    repeated string icon_src = 7;  // 广告图标地址，注意：单个广告可能有多张图标返回
+    repeated string image_src = 8;  // 广告图片地址，注意：单个广告可能有多张图片返回
+    optional string app_package = 9; // 下载类/deeplink广告应用包名
+    optional uint32 app_size = 10; // 下载类广告应用大小
+    optional string video_url = 11;  // 广告视频物料地址
+    optional uint32 video_duration = 12;  // 广告视频物料时长
+    optional MetaIndex meta_index = 13; // 当前元数据在一条广告元素组中的索引结构
+    optional uint32 material_width = 14;  // 物料的宽度:如果是图片,表示图片的宽度;如果是视频(含有视频截图),则为视频宽度;如果是图文或文本,则不会填充此字段
+    optional uint32 material_height = 15;  // 物料的高度:如果是图片,表示图片的高度;如果是视频(含有视频截图),则为视频高度;如果是图文或文本,则不会填充此字段
+    optional string brand_name = 16; // 广告品牌名称，下载类为app名，非下载类为推广的品牌名 
+    optional string ad_title = 17; // 广告推广标题
+    optional uint32 material_size = 18; // 图片、视频物料大小
+    optional bytes deeplink_url = 19;  // deeplink唤醒打开页面
+    optional uint32 fallback_type = 20;  // deeplink唤醒广告退化类型，1：浏览器打开页面，2：下载
+    optional bytes fallback_url = 21;  // deeplink唤醒广告退化链接
+    optional string apk_name = 22;  // app安装包的名字，如xxx.apk
+    optional float rating = 23; // app评分数
+    optional uint32 comments = 24; // app评论数 
+    optional ImageSize image_size = 25; // 图片物料尺寸,默认多个图片物料尺寸相同。目前仅激励视频，同时返回视频、图片物料时，此属性有效。其他情况统一采用material_width、material_height表示
+};
+
+// 广告信息
+// 同时填充material_meta和meta_group
+// 建议使用meta_group，当前为兼容方案，后续版本将合并material_meta和meta_group为meta_group
+message Ad {
+    optional string adslot_id = 1;  // 对应请求时填写的广告位ID
+    optional bytes html_snippet = 2;  // HTML片段，在MSSP设置广告位返回模板时使用此字段，中文需要UTF-8编码
+    optional MaterialMeta material_meta = 3;  // 物料元数据，在MSSP设置广告位返回创意元数据时使用此字段
+    optional string ad_key = 4; // 对当前返回广告的签名，可以唯一标识广告
+    repeated Tracking ad_tracking = 5;  // 广告监控信息
+    repeated MaterialMeta meta_group = 6; // 物料元数据组，在一个广告中含有多个物料元信息时使用
+    optional string mob_adtext = 7; // 20160901新广告法出台，要求明确使用"广告"，该字段为"广告"小图标地址，媒体需要在渲染的时候添加 
+    optional string mob_adlogo = 8; // 20160901新广告法出台，该字段为与上述字段配合使用的"熊掌"图标地址，媒体需要在渲染的时候添加
+    optional uint32 cpm_bid = 9;  // 参与竞价的cpm,单位分
+    optional string md5 = 10;  // 视频物料回传给媒体的md5值，目前只有tcl使用
+    optional uint32 adslot_type = 11;  // [百度系App使用] 广告产品样式，0：横幅，13：信息流，11：插屏，46：开屏
+    optional uint32 charge_type = 12;  // [百度系App使用] 广告计费模式，0：CPM，1：CPC
+    optional uint32 buyer_id = 13;  // [百度系App使用] 广告来源，竞价胜出的dsp，包括百度内部和第三方dsp等，1：NOVA，4：LU，6：MOBILE DSP，7826902：京东
+    optional int32 anti_tag = 14;   // [百度系App使用] 反作弊相关
+    optional uint64 start_time = 15;  // [百度系App使用] 曝光控制的开始时间，Unix时间戳，该字段仅供特殊媒体需要预加载时使用
+    optional uint64 end_time = 16;  // [百度系App使用] 曝光控制的结束时间，Unix时间戳，该字段仅供特殊媒体需要预加载时使用
+};
+
+// Baidu Mobads API应答
+message MobadsResponse {
+    optional string request_id = 1;  // 对应请求的接入方自定义请求ID
+    optional uint64 error_code = 2;  // 请求响应出错时的错误码，用于问题排查
+    repeated Ad ads = 3;  // 应答广告清单，一次请求可以返回多个广告，需要逐个解析
+    optional uint32 expiration_time = 4;  // 广告清单过期时间戳，单位秒
+    optional string search_key = 5; // 当次请求百度生成的唯一表示ID
+    optional bytes ext_style = 6; // 特色样式渲染信息，仅特殊媒体使用
+};
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mintegral Ads</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        window.offerdata = {{.Data}};
+        window.appid = {{.AppId}};
+        window.sign = {{.Sign}};
+        window.unitid = {{.UnitId}};
+        window.view = {{.AdType}};
+        window.idfa = {{.Idfa}};
+        window.imei = {{.Imei}};
+        window.gaid = {{.Gaid}};
+    </script>
+
+    <script type="text/javascript">
+
+        if(window.idfa.length==0) window.idfa = null;
+        if(window.imei.length==0) window.imei = null;
+        if(window.gaid.length==0) window.gaid = null;
+
+        var ts = (new Date().getTime());
+        document.writeln('<script type="text/javascript" src="https:\/\/vijs.rayjump.com/bin/vijs.js?ts='+ts+'" appid="'+window.appid+'" sign="'+window.sign+'" onload="Vijs.init(this);" ><\/script>');
+    </script>
+</head>
+<body>
+
+<div id="banner_video"></div>
+<script type="text/javascript">
+    window.onload = function() {
+        window.myAd = Vijs.setAD({
+            'unitid': window.unitid,
+            'idfa': window.idfa,
+            'imei': window.imei,
+            'gaid':window.gaid,
+            'view': window.view,
+            'placeholderid': 'banner_video',
+            'offerdata': window.offerdata,
+            loadedCallback: function() {
+                myAd.show();
+            }
+        });
+    }
+</script>
+</body>
+</html>

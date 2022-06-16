@@ -1,0 +1,14 @@
+package constant
+
+const (
+	SDK = iota + 1
+	SITE
+	OPENAPI
+	SDK_OLD
+	AGENTAPI
+	SITE_OLD
+	OPENAPI_V3
+	DSP
+	OPENAPI_V4
+	OPENAPI_AD
+)

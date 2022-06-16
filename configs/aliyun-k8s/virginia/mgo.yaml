@@ -1,0 +1,25 @@
+extractor:
+  modify_interval: 60
+  interval_factor: 10
+  mongo: "adn-cpmongo-slave-internal-vg.rayjump.com:27017"
+  db: "new_adn"
+  conn_timeout: 600
+  read_timeout: 180
+  max_pool_size: 10
+  offset: 7
+  collections:
+    - "app"
+    - "unit"
+    - "publisher"
+    - "campaign"
+    - "config"
+    - "configcenter"
+    - "advertiser"
+    - "app_package_mtg_id"
+    - "adx_dsp_config"
+    - "config_algorithm_fillrate"
+    - "ssp_profit_distribution_rule"
+    - "freq_control_factor"
+    - "placement"
+    - "advOffer"
+    - "adx_traffic_media_config"

@@ -1,0 +1,334 @@
+syntax = "proto3";
+
+package protobuf;
+
+// 版本号信息
+message Version {
+    uint32 major = 1;  //[可选] 主版本号
+    uint32 minor = 2;  //[可选] 副版本号
+    uint32 micro = 3;  //[可选] 子版本号
+}
+
+// 二维尺寸信息
+message Size {
+    uint32 width  = 1; //[必填] 宽度
+    uint32 height = 2; //[必填] 高度
+};
+
+// 视频版权信息
+enum CopyRight {
+    CR_NONE       = 0;
+    CR_EXIST      = 1;
+    CR_UGC        = 2;
+    CR_OTHER      = 3;
+}
+
+// 视频信息
+message Video {
+    bytes title           = 1;  //[必填] 视频标题
+    uint32 content_length = 2;  //[建议] 视频内容长度
+    CopyRight copyright   = 3;  //[可选] 视频版权信息
+};
+
+// 唯一用户标识，优先使用明文，必需按要求填写，具体填写指导详见接口说明文档
+message UdId {
+    string idfa           = 1;  //[可选] iOS设备的IDFA，格式要求[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    string imei           = 2;  //[必填] Android手机设备的IMEI，格式要求[0-9a-fA-F]{14,15}
+    string mac            = 3;  //[必填] Android非手机设备的WiFi网卡MAC地址，格式要求[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}
+    string imei_md5       = 4;  //[必填] Android手机设备的IMEI，经过MD5加密，格式要求[0-9A-Za-z]{32}
+    string android_id     = 5;  //[必填] Android手机设备系统ID，格式要求[0-9A-Za-z]{16}
+    string idfa_md5       = 8;  //[可选] iOS设备的IDFA，经过MD5加密，格式要求[0-9A-Za-z]{32}
+    string androidid_md5  = 9;  //[必填] Android手机设备系统ID，经过MD5加密，格式要求[0-9A-Za-z]{32}
+
+    string ksid           = 15; //[可选] 目前支持web流量, 浏览器cookie.
+};
+
+// 设备类型
+enum DeviceType {
+    DEVICETYPE_DEFAULT = 0; // 默认值，没有意义
+    PHONE	           = 1; // 手机，含iTouch
+    TABLET	           = 2; // 平板
+    PC		           = 3; // 电脑
+}
+
+// 操作系统类型
+enum OsType {
+    OSTYPE_DEFAULT     = 0; // 默认值，没有意义
+    ANDROID            = 1; // Android
+    IOS                = 2; // iOS
+    WP                 = 3; // WindownsPhone
+    OTHERS             = 4; // 其他
+}
+
+// 当前设备屏幕状态
+enum ScreenType {
+    SCREENTYPE_DEFAULT = 0; //默认值，没有意义
+    ERECT              = 1; //竖屏
+    ACROSS             = 2; //横屏
+};
+
+// 设备信息
+message Device {
+    DeviceType device_type  = 1;  //[必填] 设备类型
+    OsType os_type          = 2;  //[必填] 操作系统类型
+    Version os_version      = 3;  //[必填] 操作系统版本
+    bytes vendor            = 4;  //[必填] 设备厂商名称
+    bytes model             = 5;  //[必填] 设备型号
+    UdId udid               = 6;  //[必填] 唯一设备标识
+    Size screen_size        = 7;  //[必填] 设备屏幕宽高
+    ScreenType screen_type  = 8;  //[必填] 屏幕状态, 横屏or竖屏
+
+    string ua               = 14; //[必填] 用户代理
+    string referer          = 15; //[可选] 上一跳地址
+}
+
+// 广告位类型
+enum AdSlotType {
+    ENUM_ADSLOT_TYPE_DEFAULT          = 0;   //默认值，没有实际意义
+    ENUM_ADSLOT_TYPE_BANNER           = 1;   //横幅
+    ENUM_ADSLOT_TYPE_INTERSTITIAL     = 2;   //插屏
+    ENUM_ADSLOT_TYPE_OPEN_SCREEN      = 4;   //开屏
+    ENUM_ADSLOT_TYPE_FEED             = 8;   //原生信息流
+    ENUM_ADSLOT_TYPE_REWARDED_VIDEO   = 9;   //奖励视频
+    ENUM_ADSLOT_TYPE_VIDEO_FRONT_FIT  = 21;  //视频前贴
+    ENUM_ADSLOT_TYPE_VIDEO_MIDDLE_FIT = 22;  //视频中贴
+    ENUM_ADSLOT_TYPE_VIDEO_END_FIT    = 23;  //视频后贴
+    ENUM_ADSLOT_TYPE_VIDEO_STOP       = 26;  //视频暂停
+    ENUM_ADSLOT_TYPE_COMMON_FLOAT     = 27;  //通用浮层
+    ENUM_ADSLOT_TYPE_VIDEO_EMBED      = 101; //嵌入
+    ENUM_ADSLOT_TYPE_VIDEO_SUSPEND    = 102; //悬浮
+}
+
+// 广告位请求信息
+message AdSlot {
+    string adslot_id    = 1;  //[必填] 广告位ID, DSP 需要的广告位 ID
+    Size   adslot_size  = 2;  //[必填] 广告位尺寸
+    Video  video        = 4;  //[建议] 视频广告位必填, 传递视频标题、时长、频道、版权等信息
+    uint32 adslot_type  = 5;  //[必填] 广告类型
+    int32  minimum_cpm  = 6;  //[必填] 底价，单位分
+
+    uint32 ads          = 15; //[必填] 返回广告条数, 默认 1
+};
+
+// 应用信息
+message App {
+    string app_id       = 1;  //[必填] 应用ID
+    string channel_id   = 2;  //[可选] 发布渠道ID, 渠道接入方必需填写
+    Version app_version = 3;  //[必填] 应用版本, 将影响优选策略
+    string app_package  = 4;  //[必填] 应用包名, 需要跟应用提交时一一对应
+
+    Version sdk_version = 15; //[必填] SDK版本
+}
+
+//物料轮替类型。web专有
+enum TurnType {
+    TURNTYPE_NONE       = 0; //无
+    WEIGHT              = 1; //手工权重
+    CAROUSEL            = 2; //轮播
+};
+
+// 网络连接类型
+enum ConnectionType {
+    CONNECTION_UNKNOWN  = 0;   // 无法探测当前网络状态
+    CELL_UNKNOWN        = 1;   // 蜂窝数据接入，未知网络类型
+    CELL_2G             = 2;   // 蜂窝数据2G网络
+    CELL_3G             = 3;   // 蜂窝数据3G网络
+    CELL_4G             = 4;   // 蜂窝数据4G网络
+    CELL_5G             = 5;   // 蜂窝数据5G网络
+    WIFI                = 100; // Wi-Fi网络接入
+    ETHERNET            = 101; // 以太网接入
+    NEW_TYPE            = 999; // 未知新类型
+}
+
+// 移动运营商类型
+enum OperatorType {
+    UNKNOWN_OPERATOR    = 0;  // 未知的运营商
+    CHINA_MOBILE        = 1;  // 中国移动
+    CHINA_TELECOM       = 2;  // 中国电信
+    CHINA_UNICOM        = 3;  // 中国联通
+    OTHER_OPERATOR      = 99; // 其他运营商
+}
+
+// WiFi热点信息
+message WiFiAp {
+    string ap_mac       = 1; //[必填] 热点MAC地址，格式要求[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}
+    int32 rssi          = 2; //[必填] 热点信号强度，通常是负数
+    bytes ap_name       = 3; //[必填] 热点名称，可不传递，建议传递当前接入热点的名称，用于判断用户当前所处场所，中文需要UTF-8编码
+    bool is_connected   = 4; //[必填] 是否是当前连接热点，配合热点名称可用于识别用户所处场所
+};
+
+// 网络环境信息
+message Network {
+    string ipv4                    = 1; //[必填] 用户设备的公网IPv4地址, 服务器对接必填, 格式要求：255.255.255.255
+    ConnectionType connection_type = 2; //[必填] 网络连接类型，用于判断网速
+    OperatorType operator_type     = 3; //[必填] 移动运营商类型，用于运营商定向广告
+    string cellular_id             = 4; //[可选] 当前连接的运营商基站ID，用于快速用户定位
+    repeated WiFiAp wifi_aps       = 5; //[可选] 周边WiFi热点列表，用于精细用户定位
+};
+
+// GPS坐标类型
+enum CoordinateType {
+    CT_NONE     = 0; //默认值，没有意义
+    WGS84       = 1; //全球卫星定位系统坐标系
+    GCJ02       = 2; //国家测绘局坐标系
+    BD09        = 3; //百度坐标系
+}
+
+// GPS信息
+message Gps {
+    CoordinateType coordinate_type  = 1; //[必填] 坐标类型
+    double longitude                = 2; //[必填] 经度
+    double latitude                 = 3; //[必填] 纬度
+    uint32 timestamp                = 4; //[可选] 时间戳, 单位秒
+};
+
+// 性别枚举
+enum ESexType {
+    ESEX_UNKNOWN = 0; // 未知性别
+	ESEX_MALE    = 1; // 性别男
+	ESEX_FEMALE  = 2; // 性别女
+} 
+
+// 用户信息
+message STUserInfo {
+	ESexType gender          = 1; //[可选] 性别
+	sint32 birthday          = 2; //[可选] 年龄出生日期, 格式: 20180101
+	repeated string keywords = 3; //[可选] 用户画像的关键词列表
+}
+
+// 请求协议类型
+enum RequestProtocolType {
+    UNKNOWN_PROTOCOL_TYPE   = 0; // 未知协议
+    HTTP_PROTOCOL_TYPE      = 1; // http协议
+    HTTPS_PROTOCOL_TYPE     = 2; // https协议
+}
+
+// 交易请求
+message STExchangeReq {
+    string  request_id      = 1; //[必填] 接入方自定义请求ID，[a-zA-Z0-9]{32}
+    Version api_version	    = 2; //[必填] API版本
+    AdSlot  adslot          = 3; //[必填] 广告位信息
+    App     app             = 4; //[必填] 应用信息
+    Device  device          = 5; //[必填] 设备信息
+    Network network         = 6; //[必填] 网络环境信息
+    Gps     gps             = 7; //[建议] 强烈建议填写, 用于辅助触发 LBS 广告
+    STUserInfo user         = 8; //[可选] 用户信息
+
+    RequestProtocolType request_protocol_type = 13; //[建议] https媒体
+
+    string  search_key      = 100; //[必填] 一次广告请求标识
+}
+
+// 交易响应
+message STExchangeRsp {
+    string request_id       = 1; //[可选] 对应请求的接入方自定义请求ID
+    uint64 error_code       = 2; //[必填] 响应错误码, 0 is OK, other is error
+    repeated Ad ads         = 3; //[必填] 应答广告清单, 有且仅有一个广告
+}
+
+// 创意类型
+enum CreativeType {
+    NO_TYPE         = 0;  //无创意类型, 主要针对原生自定义素材广告，不再制定返回广告的创意类型，根据广告位设置对返回字段进行读取即可
+    TEXT            = 1;  //纯文字广告, 一般由title、description构成
+    IMAGE           = 2;  //纯图片广告, 一般由单张image_src构成
+    TEXT_ICON       = 3;  //图文混合广告, 一般由单张icon_src和title、description构成
+    VIDEO           = 4;  //视频广告, 一般由视频URL和视频时长构成
+    VIDEO_HTML      = 9;  //激励视频广告, 一般由视频URL/视频时长和一个落地页面构成.
+    FEED_SMALL      = 81; //信息流小图
+    FEED_BIG        = 82; //信息流大图
+    FEED_ARRA       = 83; //信息流组图
+}
+
+// 交互类型
+enum InteractionType {
+    NO_INTERACTION  = 0;  //无动作，即广告广告点击后无需进行任何响应
+    SURFING         = 1;  //使用浏览器打开网页
+    DOWNLOAD        = 2;  //下载应用
+    OPTIONAL        = 9;  //可选交互类型, 针对app. 开发者可选择是打开详情页还是直接下载推广应用. 需要开发者替换 click_url 中的宏${ACCT_TYPE}. 0表示打开详情页,35表示直接下载.
+}
+
+// 广告展示过程事件类型
+enum TrackingEvent {
+    // 广告展示过程共性事件
+    AD_CLICK                     = 0;      // 广告被点击，对于奖励视频广告，此事件为落地页的点击事件
+    AD_EXPOSURE                  = 1;      // 广告被展现，对于奖励视频广告，此事件为落地页的曝光事件
+    AD_CLOSE                     = 2;      // 广告被关闭，对于奖励视频广告，此事件为落地页的关闭事件
+
+    AD_EXPOSURE_GENERAL          = 3;      // 开屏展现事件, 通用广告展现事件
+    AD_SKIP                      = 4;      // 开屏跳过事件, 广告被跳过事件
+
+    // 视频类广告展示过程事件
+    VIDEO_AD_START               = 101000; // 视频开始播放，对于奖励视频广告，此事件为视频播放开始
+    VIDEO_AD_FULL_SCREEN         = 101001; // 视频全屏, 奖励视频不上报此事件
+    VIDEO_AD_END                 = 101002; // 视频播放结束(正常)，对于奖励视频广告，此事件为视频正常播放完成
+    VIDEO_AD_START_CARD_CLICK    = 101003; // 点击预览图播放视频，奖励视频不上报此事件
+    VIDEO_AD_CLOSE               = 101009; // 视频播放被中途关闭，对于奖励视频广告，此事件为视频播放过程中被中途关闭
+    VIDEO_AD_RESTART             = 101052; // 落地页回看视频，对于奖励视频广告，此事件为视频播放完成跳转落地页，用户点击回看按钮回看视频
+    VIDEO_AD_START_ACTIVE        = 101004; // 视频播放(主动)
+    VIDEO_AD_PLAY_VALID          = 101053; // 视频播放(有效)
+
+    // 下载类广告推广APP相关事件
+    APP_AD_DOWNLOAD              = 102000; // 下载推广APP(下载完成)
+    APP_AD_INSTALL               = 102001; // 安装推广APP，安装完成
+    APP_AD_ACTIVE                = 102002; // 激活推广APP，激活
+    APP_AD_START_DOWNLOAD        = 102009; // 开始下载APP，开始下载
+    APP_AD_START_INSTALL         = 102010; // 安装APP，开始安装
+    APP_AD_START_UNINSTALL       = 102011; // 卸载APP
+    APP_AD_START_MID_DOWNLOAD    = 102012; // 中途下载APP，视频播放过程中途下载
+
+     //去重点击类广告时事件
+    APP_AD_UNIQUE_CLICK          = 103000;  // 去重点击，一次投放只会上报一次
+}
+
+// 广告效果跟踪信息
+message Tracking {
+    TrackingEvent tracking_event = 1; //[必填] 被跟踪的广告展示过程事件
+    repeated string tracking_url = 2; //[必填] 事件监控URL
+};
+
+// 广告元数据组索引结构
+message MetaIndex {
+    uint32 total_num             = 1; //[可选] 每条广告对应元素组中元数据个数
+    uint32 current_index         = 2; //[可选] 当前元数据所在索引
+};
+
+// 广告物料元数据信息
+message MaterialMeta {
+    CreativeType creative_type       = 1;   //[必填] 创意类型, 奖励视频广告填 9
+    InteractionType interaction_type = 2;   //[必填] 交互类型, 下载应用填 2
+    repeated string win_notice_url   = 3;   //[可选] 后续将重新定义
+    string click_url                 = 4;   //[必填] 点击行为地址，用户点击后，在客户端进行响应，会经过多次302跳转最终到达目标地址(奖励视频广告此链接为应用的下载链接)
+    bytes title                      = 5;   //[必填] 推广标题
+    repeated bytes description       = 6;   //[必填] 广告描述，默认只有一个元素，暂时约定最多只有两个元素，具体情况已线上广告实际返回结果为准
+    repeated string iconSrc          = 7;   //[必填] 广告图标地址，注意：单个广告可能有多张图标返回
+    repeated string imageSrc         = 8;   //[必填] 广告图片地址，注意：单个广告可能有多张图片返回
+    string app_package               = 9;   //[必填] 下载类广告应用包名
+    uint32 app_size                  = 10;  //[可选] 下载类广告应用大小
+    string video_url                 = 11;  //[必填] 广告视频物料地址
+    uint32 video_duration            = 12;  //[建议] 广告视频物料时长
+    MetaIndex meta_index             = 13;  //[可选] 当前元数据在一条广告元素组中的索引结构
+    uint32 material_width            = 14;  //[建议] 物料的宽度:如果是图片,表示图片的宽度;如果是视频(含有视频截图),则为视频宽度;如果是图文或文本,则不会填充此字段
+    uint32 material_height           = 15;  //[建议] 物料的高度:如果是图片,表示图片的高度;如果是视频(含有视频截图),则为视频高度;如果是图文或文本,则不会填充此字段
+    string brand_name                = 16;  //[可选] 广告品牌名称，下载类则为app名称（如“手机百度”），非下载类则为品牌名称（如“小米”）
+    string ext                       = 17;  //[可选] 扩展字段，如头条网盟会添加扩展参数用于回传
+    string source                    = 18;  //[可选] 广告来源
+    string app_name                  = 19;  //[必填] 应用名称
+};
+
+// 广告信息
+message Ad {
+    string adslot_id                 = 1;   //[必填] 对应请求时填写的广告位ID
+    bytes html_snippet               = 2;   //[可选] HTML片段，中文需要UTF-8编码. 激励视频广告时,存放落地页面模板H5代码.
+    uint32 expiration_time           = 3;   //[必填] 广告过期时间戳，单位秒
+    string ad_key                    = 4;   //[必填] 对当前返回广告的签名，可以唯一标识广告
+    repeated Tracking ad_tracking    = 5;   //[必填] 广告监控信息
+    repeated MaterialMeta meta_group = 6;   //[必填] 物料元数据组，在一个广告中含有多个物料元信息时使用
+    string mob_adtext                = 7;   //[可选] 20160901新广告法出台，要求明确使用"广告"，该字段为"广告"小图标地址，媒体需要在渲染的时候添加
+    string mob_adlogo                = 8;   //[可选] 20160901新广告法出台，该字段为与上述字段配合使用的"logo"图标地址，媒体需要在渲染的时候添加
+    int64 max_cpm                    = 9;   //[必填] 最高竞价，单位分
+
+    string vid                       = 14;  //[可选] 广告曝光id.广告本次生命周期行为信息追踪的唯一标识
+    int32 open_mode                  = 15;  //[可选] 目标窗口打开方式. 1,新窗口打开 2,原窗口
+
+    string search_key                = 100; //[可选] 对应请求的serch_key, 便于 sspengin 解析
+};

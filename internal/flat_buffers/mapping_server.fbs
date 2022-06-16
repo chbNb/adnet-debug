@@ -1,0 +1,13 @@
+namespace ml.mapping_service;
+table Item {
+    key : string;
+    value : string;
+}
+
+table Message {
+    version: string;
+    status: string;
+    kvpairs: [Item];
+}
+
+root_type Message;

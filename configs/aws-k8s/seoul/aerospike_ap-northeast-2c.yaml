@@ -1,0 +1,20 @@
+caches:
+  - "aerospike"
+# compressor:
+#   package: "mykv"
+#   class: "Compressor"
+# serializer:
+#   package: "mykv"
+#   class: "Serializer"
+gcache:
+  class: "NoCache"
+aerospike:
+  class: "Aerospike"
+  address: "adn-hb-aerospike-internal-se-aws-2c.rayjump.com:3000"
+  namespace: "adnet"
+  setname: "aladdin"
+  timeout: "200ms"
+  writeTimeout: "200ms"
+  expiration: "1h"
+  retries: 2
+  connectionQueueSize: 100

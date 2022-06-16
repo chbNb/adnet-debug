@@ -1,0 +1,19 @@
+caches:
+  - "aerospike"
+# compressor:
+#   package: "mykv"
+#   class: "Compressor"
+# serializer:
+#   package: "mykv"
+#   class: "Serializer"
+gcache:
+  class: "NoCache"
+aerospike:
+  class: "Aerospike"
+  address: "vg-adnet-aerospike01.rayjump.com:3000,vg-adnet-aerospike02.rayjump.com:3000"
+  namespace: "adnet"
+  setname: "fallback"
+  timeout: "20ms"
+  expiration: "360h"
+  retries: 0
+  connectionQueueSize: 100

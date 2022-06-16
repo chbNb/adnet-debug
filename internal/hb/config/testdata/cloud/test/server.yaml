@@ -1,0 +1,2 @@
+http_addr: ":9102"
+server_meta_url: "http://100.100.100.200/latest/meta-data/eipv4"

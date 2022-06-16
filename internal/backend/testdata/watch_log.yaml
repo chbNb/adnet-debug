@@ -1,0 +1,10 @@
+encoding: console
+info_filename: "./watch.log"
+error_filename: "./watch.log"
+max_size: 100
+max_backups: 5
+max_age: 1
+compress: false
+division: "time" # size or time
+level_separate: false
+time_unit: "hour" # minute, hour, day, month, year

@@ -1,0 +1,11 @@
+# 不指定 platform 默认根据运行 docker 环境的机器架构选择镜像的架构
+# FROM golang:1.17
+FROM --platform=linux/amd64 golang:1.17
+RUN apt-get update && apt-get install -y vim libbrotli-dev brotli
+ENV GOPRIVATE="gitlab.mobvistsa.com"
+ENV GOPROXY="https://goproxy.cn,direct"
+ENV GOSUMDB="off"
+ENV GOARCH=amd64
+COPY ./git_rsa_private_key /root/.ssh/id_rsa
+COPY ./ssh_config /root/.ssh/config
+RUN chmod 600 /root/.ssh/config /root/.ssh/id_rsa

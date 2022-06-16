@@ -1,0 +1,22 @@
+{
+  "caches": [
+    "aerospike"
+  ],
+  "aerospike": {
+    "class": "Aerospike",
+    "address": "hkali-adnet-aerospike01.rayjump.com:3000,hkali-adnet-aerospike02.rayjump.com:3000",
+    "namespace": "adnet",
+    "setname": "fallback",
+    "timeout": "20ms",
+    "expiration": "360h",
+    "retries": 0
+  },
+  "compressor": {
+    "package": "mykv",
+    "class": "Compressor"
+  },
+  "serializer": {
+    "package": "mykv",
+    "class": "Serializer"
+  }
+}

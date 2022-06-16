@@ -1,0 +1,12 @@
+<seelog>
+    <outputs formatid="creative">
+        <filter levels="info">
+            <buffered formatid="creative" size="10000" flushperiod="100">
+                <rollingfile type="date" filename="/data/adn_logs/adnet/creative/creative.log" datepattern="2006-01-02-15" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="creative" format="%Msg%n"/>
+    </formats>
+</seelog>

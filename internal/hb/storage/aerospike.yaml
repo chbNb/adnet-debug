@@ -1,0 +1,19 @@
+caches:
+  - "aerospike"
+# compressor:
+#   package: "mykv"
+#   class: "Compressor"
+# serializer:
+#   package: "mykv"
+#   class: "Serializer"
+gcache:
+  class: "NoCache"
+aerospike:
+  class: "Aerospike"
+  address: "127.0.0.1:3000"
+  namespace: "test"
+  setname: "aladdin"
+  timeout: "200ms"
+  expiration: "1h"
+  retries: 0
+  connectionQueueSize: 100

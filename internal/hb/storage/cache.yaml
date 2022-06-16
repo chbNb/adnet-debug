@@ -1,0 +1,17 @@
+redis:
+  readTimeout: 3 # second
+  writeTimeout: 3 # second
+  dialTimeout: 5 # second
+  idleTimeout: 5 # minute
+  poolSize: 10 # default is 10 connections per every CPU as reported by runtime.NumCPU.
+  database: 0
+  campaign:
+    network: "tcp"
+    host: "localhost"
+    port: 6379
+    auth: ""
+  creative:
+    network: "tcp"
+    host: "localhost"
+    port: 6379
+    auth: ""

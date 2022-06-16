@@ -1,0 +1,17 @@
+redis:
+  readTimeout: 100 # millisecond
+  writeTimeout: 100 # millisecond
+  dialTimeout: 100 # millisecond
+  idleTimeout: 5 # minute
+  poolSize: 30 # default is 10 connections per every CPU as reported by runtime.NumCPU.
+  database: 0
+  campaign:
+    network: "tcp"
+    host: "127.0.0.1"
+    port: 6379
+    auth: ""
+  creative:
+    network: "tcp"
+    host: "adn-zeussalve-internal-se.rayjump.com"
+    port: 6380
+    auth: ""

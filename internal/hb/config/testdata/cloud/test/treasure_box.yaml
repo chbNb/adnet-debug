@@ -1,0 +1,63 @@
+use_treasure_box_sdk: true
+use_redis_consul: true
+treasure_box_abtest: 100
+base:
+  time_after_second: 60
+  offset: 6
+  partitions: 100
+  batch_delete_time: 60
+  query_bm_batch_number: 100
+  query_inc_batch_number: 100
+lru:
+  hot_data_init_max_number: 20000
+  expired_default_time: 3600
+  automatically_reset_rate: 0.5
+  hot_data_prefix_key: "aladdin"
+  hot_redis_cluster:
+    host_port: "adn-ip-cache-fk.rayjump.com:6379"
+    connect_timeout: 3000
+    read_timeout: 1000
+    write_timeout: 1000
+    pool_size: 20
+redis:
+  host_port: "fk-adnet-treasurebox.rayjump.com:6380"
+  connect_timeout: 300
+  read_timeout: 50
+  write_timeout: 50
+  pool_size: 200
+  get_batch_connect_timeout: 9000
+  get_batch_read_timeout: 3000
+  get_batch_write_timeout: 3000
+  get_batch_pool_size: 5
+redis_consul:
+  connect_timeout: 300
+  read_timeout: 300
+  write_timeout: 100
+  pool_size: 200
+  get_batch_connect_timeout: 9000
+  get_batch_read_timeout: 10000
+  get_batch_write_timeout: 3000
+  get_batch_pool_size: 5
+  consul:
+      address: "127.0.0.1:8500"
+      service: "treasurebox_redis"
+      my_service: "aladdin"
+      internal: 200
+      service_ratio: 6.0
+      cpu_threshold: 0.7
+# mongo_consul:
+#   connect_timeout: 60
+#   read_timeout: 10
+#   pool_size: 20
+#   consul:
+#     address: "127.0.0.1:8500"
+#     service: "mongoslave"
+#     my_service: "aladdin"
+#     internal: 200
+#     service_ratio: 6.0
+#     cpu_threshold: 0.7
+mongo:
+  host_port: "mongodb://adn-cpmongo-slave-rs-fk.rayjump.com:27017"
+  pool_size: 20
+  connect_timeout: 60
+  read_timeout: 10

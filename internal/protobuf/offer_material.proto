@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package protobuf;
+
+message OfferMaterial {
+  string advCreativeId = 1;
+  string advCname = 2;
+  int32 source = 3;
+  int64 omID = 4;
+  int64 csetId = 5;
+}
+
+
+

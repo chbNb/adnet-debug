@@ -1,0 +1,12 @@
+<seelog>
+    <outputs formatid="treasure_box">
+        <filter levels="info,warn,error,critical">
+            <buffered formatid="treasure_box" size="10000" flushperiod="100">
+                <rollingfile type="date" filename="/data/adn_logs/adnet/treasure_box/treasure_box.log" datepattern="2006-01-02-15" maxrolls="240"/>
+            </buffered>
+        </filter>
+    </outputs>
+    <formats>
+        <format id="treasure_box" format="%Date %Time [%LEVEL] [%Func] [%RelFile:%Line] %Msg%n"/>
+    </formats>
+</seelog>

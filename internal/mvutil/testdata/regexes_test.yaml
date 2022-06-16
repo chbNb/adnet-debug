@@ -1,0 +1,6 @@
+user_agent_parsers:
+  #### SPECIAL CASES TOP ####
+
+  # @note: iOS / OSX Applications
+  - regex: '(CFNetwork)(?:/(\d+)\.(\d+)\.?(\d+)?)?'
+    family_replacement: 'CFNetwork'

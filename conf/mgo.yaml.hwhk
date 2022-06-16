@@ -1,0 +1,34 @@
+extractor:
+  modify_interval: 60
+  interval_factor: 10
+  mongo: "hkhw-adn-mongoslave.rayjump.com:27017"
+  db: "new_adn"
+  conn_timeout: 600
+  read_timeout: 180
+  max_pool_size: 10
+  offset: 7
+  collections:
+    - "app"
+    - "publisher"
+    - "unit"
+    - "config"
+    - "configcenter"
+    - "campaign"
+    - "config_algorithm_fillrate"
+    - "advertiser"
+    - "adx_dsp_config"
+    - "adx_traffic_media_config"
+    - "app_package_mtg_id"
+    - "ssp_profit_distribution_rule"
+    - "freq_control_factor"
+    - "placement"
+    - "advOffer"
+  use_expire_map: true
+  em_batch_delete_time: 60
+  em_expired_default_time: 86400
+  em_retry_sleep_microsecond: 10
+  active_em_collections:
+    - "app"
+    - "publisher"
+    - "unit"
+    - "campaign"

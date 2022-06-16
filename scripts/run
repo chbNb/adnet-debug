@@ -1,0 +1,6 @@
+#!/bin/bash
+killall  adnet_server check_adnet_server
+nohup ./supervise.adnet_server $1 ./ &
+nohup ./check_adnet_server $1
+
+

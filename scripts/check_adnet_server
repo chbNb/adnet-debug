@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $1 -gt 0 ]; then
+  nohup ./bin/adnet_server --mode $1 &>> /data/adn_logs/adnet/nohup.log &
+else
+  nohup ./bin/adnet_server &>> /data/adn_logs/adnet/nohup.log &
+fi
+sleep 1
+
+while :
+do
+    pNum=`ps aux |grep './bin/adnet_server'|grep -v grep|grep -v supervise.adnet_server|grep -v check_adnet_server|wc -l`
+    time=$(date "+%Y-%m-%d %H:%M:%S")
+    if [ $pNum -ge 1 ]
+    then
+        echo "$time ok, number: $pNum"
+        sleep 5
+    else
+        echo "$time cannot found adnet_server"
+        break
+    fi
+done
